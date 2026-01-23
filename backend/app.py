@@ -6,12 +6,26 @@ from google import genai
 from google.genai import types
 from dotenv import load_dotenv
 import PIL.Image
+from pymongo import MongoClient
+import datetime
 
 load_dotenv(override=True)
 
 app = Flask(__name__, static_folder='../frontend/dist', static_url_path='/')
 CORS(app)
 
+# --- MongoDB Configuration ---
+# Connect to local MongoDB instance
+try:
+    mongo_client = MongoClient("mongodb://localhost:27017/")
+    db = mongo_client["water_footprint_db"]
+    history_collection = db["user_history"]
+    print("Combined to MongoDB: water_footprint_db")
+except Exception as e:
+    print(f"Error connecting to MongoDB: {e}")
+    history_collection = None
+
+# --- Gemini API Configuration ---
 GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
 
 if not GOOGLE_API_KEY:
@@ -149,6 +163,51 @@ def get_water_footprint_analysis(input_data, is_image=False):
     except Exception as e:
         print(f"Error calling Gemini: {e}")
         raise e
+
+# --- Endpoints ---
+
+@app.route('/api/history', methods=['GET'])
+def get_history():
+    user_id = request.args.get('user_id')
+    if not user_id:
+        return jsonify({"error": "User ID required"}), 400
+    
+    if history_collection is None:
+        return jsonify({"error": "Database not connected"}), 500
+
+    try:
+        # Fetch history from Mongo, excluding _id
+        history = list(history_collection.find({"user_id": user_id}, {"_id": 0}))
+        return jsonify(history)
+    except Exception as e:
+        print(f"Database Error: {e}")
+        return jsonify({"error": "Failed to fetch history"}), 500
+
+@app.route('/api/history', methods=['POST'])
+def add_history():
+    data = request.get_json()
+    if not data or 'user_id' not in data or 'item' not in data:
+        return jsonify({"error": "Invalid data format"}), 400
+    
+    if history_collection is None:
+        return jsonify({"error": "Database not connected"}), 500
+
+    try:
+        # Add timestamp if not present
+        item = data['item']
+        if 'timestamp' not in item:
+            item['timestamp'] = datetime.datetime.now().isoformat()
+            
+        record = {
+            "user_id": data['user_id'],
+            **item 
+        }
+        
+        history_collection.insert_one(record)
+        return jsonify({"status": "success", "message": "Saved to history"})
+    except Exception as e:
+        print(f"Database Error: {e}")
+        return jsonify({"error": "Failed to save history"}), 500
 
 @app.route('/api/footprint', methods=['POST'])
 def footprint():

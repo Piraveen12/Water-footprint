@@ -74,7 +74,13 @@ export const translations = {
         tabMetrics: "More Metrics",
         severityScore: "Severity Score",
         carbonFootprint: "Carbon Footprint",
-        landUse: "Land Use"
+        landUse: "Land Use",
+        // Auth
+        loginTitle: "Login",
+        googleSignIn: "Sign in with Google",
+        logout: "Logout",
+        welcomeBack: "Welcome back",
+        secureAuth: "Secure Authentication"
     },
     tamil: {
         appTitle: "நீர் தடம் (Water Footprint)",
@@ -151,7 +157,13 @@ export const translations = {
         tabMetrics: "மேலும் அளவீடுகள்",
         severityScore: "தீவிரத்தன்மை மதிப்பெண்",
         carbonFootprint: "கார்பன் தடம்",
-        landUse: "நில பயன்பாடு"
+        landUse: "நில பயன்பாடு",
+        // Auth
+        loginTitle: "உள்நுழைவு",
+        googleSignIn: "Google மூலம் உள்நுழையவும்",
+        logout: "வெளியேறு",
+        welcomeBack: "மீண்டும் வருக",
+        secureAuth: "பாதுகாப்பான அங்கீகாரம்"
     },
     hindi: {
         appTitle: "जल पदचिह्न (Water Footprint)",
@@ -213,7 +225,13 @@ export const translations = {
         tabMetrics: "अधिक मेट्रिक्स",
         severityScore: "गंभीरता स्कोर",
         carbonFootprint: "कार्बन पदचिह्न",
-        landUse: "भूमि उपयोग"
+        landUse: "भूमि उपयोग",
+        // Auth
+        loginTitle: "लॉग इन करें",
+        googleSignIn: "Google के साथ साइन इन करें",
+        logout: "लॉग आउट",
+        welcomeBack: "वापसी पर स्वागत है",
+        secureAuth: "सुरक्षित प्रमाणीकरण"
     },
     telugu: {
         appTitle: "నీటి పాదముద్ర (Water Footprint)",
@@ -258,7 +276,7 @@ export const translations = {
         inclusivity: "అందరికీ అందుబాటులో",
         inclusivityDesc: "పాన్-ఇండియా సపోర్ట్: తెలుగు మరియు ఇతర భాషలలో ఇంటంటర్ఫేస్.",
         smartTracking: "స్మార్ట్ ట్రాకింగ్",
-        smartDesc: "వ్యక్తిగత ట్రాకర్: AI అలవాటు విశ్లేషణ.",
+        smartDesc: "వ్యక్తిగత ట్రాకర్: AI అలవాటు విశ్లేсіణ.",
         bigData: "బిగ్ డేటా",
         bigDesc: "గ్లోబల్ డేటాబేస్ ఇంటిగ్రేషన్.",
         roadmap: "భవిష్యత్తు ప్రణాళిక",
@@ -287,7 +305,13 @@ export const translations = {
         tabMetrics: "మరిన్ని కొలమానాలు",
         severityScore: "తీవ్రత స్కోరు",
         carbonFootprint: "కర్బన పాదముద్ర",
-        landUse: "భూమి వినియోగం"
+        landUse: "భూమి వినియోగం",
+        // Auth
+        loginTitle: "లాగిన్",
+        googleSignIn: "Googleతో సైన్ ఇన్ చేయండి",
+        logout: "లాగ్ అవుట్",
+        welcomeBack: "తిరిగి స్వాగతం",
+        secureAuth: "సురక్షిత ప్రమాణీకరణ"
     },
     malayalam: {
         appTitle: "ജല കാൽപ്പാടുകൾ (Water Footprint)",
@@ -361,7 +385,13 @@ export const translations = {
         tabMetrics: "കൂടുതൽ അളവുകൾ",
         severityScore: "തീവ്രത സ്കോർ",
         carbonFootprint: "കാർബൺ കാൽപ്പാട്",
-        landUse: "ഭൂമി ഉപയോഗം"
+        landUse: "ഭൂമി ഉപയോഗം",
+        // Auth
+        loginTitle: "ലോഗിൻ",
+        googleSignIn: "Google ഉപയോഗിച്ച് പ്രവേശിക്കുക",
+        logout: "പുറത്തുകടക്കുക",
+        welcomeBack: "തിരികെ സ്വാഗതം",
+        secureAuth: "സുരക്ഷിത പരിശോധന"
     },
     kannada: {
         appTitle: "ನೀರಿನ ಹೆಜ್ಜೆಗುರುತು (Water Footprint)",
@@ -435,6 +465,12 @@ export const translations = {
         tabMetrics: "ಹೆಚ್ಚಿನ ಮೆಟ್ರಿಕ್ಸ್",
         severityScore: "ತೀವ್ರತೆಯ ಸ್ಕೋರ್",
         carbonFootprint: "ಇಂಗಾಲದ ಹೆಜ್ಜೆಗುರುತು",
-        landUse: "ಭೂಮಿ ಬಳಕೆ"
+        landUse: "ಭೂಮಿ ಬಳಕೆ",
+        // Auth
+        loginTitle: "ಲಾಗಿನ್",
+        googleSignIn: "Google ಮೂಲಕ ಸೈನ್ ಇನ್ ಮಾಡಿ",
+        logout: "ಲಾಗ್ ಔಟ್",
+        welcomeBack: "ಮತ್ತೆ ಸ್ವಾಗತ",
+        secureAuth: "ಸುರಕ್ಷಿತ ದೃಢೀಕರಣ"
     }
 };
