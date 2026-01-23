@@ -82,7 +82,7 @@ function App() {
         toast.success(t.foundIt)
       } catch (error) {
         console.error("Error searching:", error)
-        toast.error("Could not find that item.")
+        toast.error(error.response?.data?.error || "Could not find that item.")
       } finally {
         setLoading(false)
       }

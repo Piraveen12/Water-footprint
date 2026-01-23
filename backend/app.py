@@ -1,6 +1,6 @@
 import os
 import json
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, send_from_directory
 from flask_cors import CORS
 from google import genai
 from google.genai import types
@@ -9,7 +9,7 @@ import PIL.Image
 
 load_dotenv(override=True)
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder='../frontend/dist', static_url_path='/')
 CORS(app)
 
 GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
@@ -248,6 +248,16 @@ def analyze_habits():
 @app.route('/api/health', methods=['GET'])
 def health():
     return jsonify({"status": "ok"})
+
+@app.route('/')
+def index():
+    return app.send_static_file('index.html')
+
+@app.errorhandler(404)
+def not_found(e):
+    if request.path.startswith('/api/'):
+        return jsonify({"error": "Path not found"}), 404
+    return app.send_static_file('index.html')
 
 if __name__ == '__main__':
     app.run(debug=True, port=5000)

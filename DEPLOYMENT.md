@@ -1,59 +1,49 @@
-# Deploying Water Footprint Tracker to Vercel
+# Manual Deployment Guide
 
-This guide will help you deploy your full-stack application (React Frontend + Flask Backend) to Vercel.
+Since you have chosen to deploy manually, the application has been configured as a **Single Server Application**. This means the Python (Flask) backend will serve both the API *and* the React frontend files.
 
-## Prerequisites
+## Prerequisite: Build the Frontend
+Before the backend can serve the frontend, you must build the React application into static files.
 
-1.  **Vercel Account**: Sign up at [vercel.com](https://vercel.com).
-2.  **Vercel CLI**: Install it globally using npm:
+1.  Open terminal in `frontend/`
+2.  Run `npm run build`
+    - This creates a `dist/` folder in `frontend/` containing the optimized website.
+
+## Approach 1: Run Locally (Production Mode)
+You can test the "deployed" version on your own machine.
+
+1.  **Build Frontend**: `cd frontend` then `npm run build`
+2.  **Run Backend**: `cd backend` then `python app.py`
+3.  **Access App**: Open `http://localhost:5000` in your browser.
+    - Note: You do NOT need to run `npm run dev`. The Python server handles everything.
+
+## Approach 2: Deploy to a Cloud Server (VPS, Render, Railway, etc.)
+
+If you are uploading this to a server (like an Ubuntu VPS or a cloud platform):
+
+1.  **Upload Code**: Copy all files to the server.
+2.  **Install Python Dependencies**:
     ```bash
-    npm install -g vercel
+    cd backend
+    pip install -r requirements.txt
     ```
+3.  **Install Node Dependencies & Build**:
+    ```bash
+    cd frontend
+    npm install
+    npm run build
+    ```
+4.  **Run the Server**:
+    - **Development/Simple**: `python app.py`
+    - **Production (Linux)**: Use `gunicorn`:
+      ```bash
+      gunicorn app:app
+      ```
+    - **Production (Windows)**: Use `waitress` (install with `pip install waitress`):
+      ```bash
+      waitress-serve --listen=*:5000 app:app
+      ```
 
-## deployment Steps
-
-### 1. Login to Vercel
-Open your terminal in the project root (`f:\s8 project\New folder`) and run:
-```bash
-vercel login
-```
-Follow the instructions to log in (email or GitHub).
-
-### 2. Deploy Project
-Run the deploy command:
-```bash
-vercel
-```
-You will be asked a series of questions. Authenticate and select the following options:
-- **Set up and deploy?**: `Y`
-- **Which scope?**: Select your account.
-- **Link to existing project?**: `N`
-- **Project Name**: `water-footprint-tracker` (or your choice)
-- **In which directory is your code located?**: `./` (Just press Enter)
-- **Want to modify these settings?**: `N` (We created `vercel.json` to handle this)
-
-### 3. Configure Environment Variables
-**CRITICAL STEP**: Your app needs the Google Gemini API Key to work.
-
-1.  Go to the Vercel Dashboard for your new project.
-2.  Click on **Settings** > **Environment Variables**.
-3.  Add a new variable:
-    - **Key**: `GOOGLE_API_KEY`
-    - **Value**: (Copy your key from your local `.env` file)
-4.  Save the variable.
-
-### 4. Redeploy
-For the environment variables to take effect, you must redeploy.
-```bash
-vercel --prod
-```
-
-## Verification
-- Open the "Production" URL provided by Vercel.
-- Try scanning an item or using the ChatBot.
-- If it works, you are live! 🚀
-
-## Troubleshooting
-- **Build Errors**: Check the "Logs" tab in Vercel dashboard.
-- **API Errors**: Ensure `GOOGLE_API_KEY` is set correctly.
-- **404 on API**: Double-check `vercel.json` routes (routes `/api` to backend).
+## Environment Variables
+Ensure your server has the `.env` file in the `backend/` directory or appropriate environment variables set:
+- `GOOGLE_API_KEY`: Your Gemini API Key.
