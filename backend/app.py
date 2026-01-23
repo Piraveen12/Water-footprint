@@ -15,12 +15,20 @@ app = Flask(__name__, static_folder='../frontend/dist', static_url_path='/')
 CORS(app)
 
 # --- MongoDB Configuration ---
-# Connect to local MongoDB instance
+MONGO_URI = os.getenv("MONGO_URI")
+
+if not MONGO_URI:
+    # Fallback to local if no URI provided (for local dev)
+    print("MONGO_URI not found, trying localhost...")
+    MONGO_URI = "mongodb://localhost:27017/"
+
 try:
-    mongo_client = MongoClient("mongodb://localhost:27017/")
+    mongo_client = MongoClient(MONGO_URI)
     db = mongo_client["water_footprint_db"]
     history_collection = db["user_history"]
-    print("Combined to MongoDB: water_footprint_db")
+    # Test connection
+    mongo_client.admin.command('ping')
+    print("Connected to MongoDB successfully")
 except Exception as e:
     print(f"Error connecting to MongoDB: {e}")
     history_collection = None
