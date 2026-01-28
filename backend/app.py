@@ -245,29 +245,33 @@ def chat():
     
     user_message = data['message']
     
+    language = data.get('language', 'english')
+    
     if not client:
          return jsonify({"error": "API Key not configured"}), 500
 
-    chat_prompt = """
+    chat_prompt = f"""
     You are 'AquaBot', a friendly and knowledgeable Water Sustainability Expert.
     Your goal is to help users understand their water footprint and provide practical, daily-life tips to reduce usage.
     
-    User Query: {user_message}
+    User Query: {{user_message}}
+    Target Language: {{language}}
     
     Guidelines:
+    - RESPOND STRICTLY IN {{language}}.
     - Be concise, encouraging, and easy to understand.
     - Focus on 'daily human needs' like cooking, cleaning, hygiene, and shopping.
     - If asked about non-environmental topics, politely steer back to water/sustainability.
     - Provide 1-2 specific actionable tips if relevant.
     
     Return a JSON object:
-    {{
-        "reply": "string (your helpful response)"
-    }}
+    {{{{
+        "reply": "string (your helpful response in {{language}})"
+    }}}}
     """
     
     try:
-        response = generate_with_fallback(chat_prompt.format(user_message=user_message))
+        response = generate_with_fallback(chat_prompt.format(user_message=user_message, language=language))
         return jsonify(json.loads(response.text))
     except Exception as e:
         print(f"Chat Error: {e}")

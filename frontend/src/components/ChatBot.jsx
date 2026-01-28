@@ -3,7 +3,7 @@ import { MessageCircle, X, Send, Bot, User } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import axios from 'axios';
 
-const ChatBot = ({ t }) => {
+const ChatBot = ({ t, language }) => {
     const [isOpen, setIsOpen] = useState(false);
     const [messages, setMessages] = useState([
         { role: 'bot', text: 'Hi! I\'m AquaBot 💧. Ask me anything about saving water or your daily footprint!' }
@@ -30,7 +30,10 @@ const ChatBot = ({ t }) => {
         setItemLoading(true);
 
         try {
-            const response = await axios.post('/api/chat', { message: userMsg });
+            const response = await axios.post('/api/chat', {
+                message: userMsg,
+                language: language
+            });
             setMessages(prev => [...prev, { role: 'bot', text: response.data.reply }]);
         } catch (error) {
             setMessages(prev => [...prev, { role: 'bot', text: "Sorry, I lost connection to the water source! Try again later." }]);

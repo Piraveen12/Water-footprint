@@ -297,7 +297,6 @@ function MainApplication({ user, onLogout }) {
                             placeholder={t.searchPlaceholder}
                             value={textInput}
                             onChange={(e) => setTextInput(e.target.value)}
-                            onChange={(e) => setTextInput(e.target.value)}
                             onKeyDown={handleKeySearch}
                         />
                         <Search
@@ -322,7 +321,7 @@ function MainApplication({ user, onLogout }) {
                 <TrackerDashboard history={history} onStart={() => setActiveTab('scan')} t={t} />
             )}
 
-            <ChatBot t={t} />
+            <ChatBot t={t} language={language} />
 
             <HowToUse isOpen={showHelp} onClose={() => setShowHelp(false)} t={t} />
             <AboutProject isOpen={showAbout} onClose={() => setShowAbout(false)} t={t} />
