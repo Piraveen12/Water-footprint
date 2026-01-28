@@ -10,8 +10,34 @@ const TrackerDashboard = ({ history, onStart, t }) => {
 
     const totalFootprint = history.reduce((sum, item) => sum + (item.water_footprint_liters || 0), 0);
 
-    // Group by date (mocking date since we just have the item) or just show recent items in chart
-    // For simplicity, showing last 7 items in chart
+    // Gamification Logic
+    const averageFootprint = history.length > 0 ? totalFootprint / history.length : 0;
+
+    let grade = 'A';
+    if (averageFootprint > 3000) grade = 'C';
+    else if (averageFootprint > 1000) grade = 'B';
+    else grade = 'A';
+
+    const getGradeColor = (g) => {
+        if (g === 'A') return '#4ade80'; // Green
+        if (g === 'B') return '#facc15'; // Yellow
+        return '#ef4444'; // Red
+    };
+
+    const getGradeText = (g, t) => {
+        if (g === 'A') return t.gradeA || "Water-efficient citizen 🌱";
+        if (g === 'B') return t.gradeB || "Moderate usage";
+        return t.gradeC || "High water footprint ⚠️";
+    };
+
+    // Badges
+    const badges = [];
+    if (history.length >= 1) badges.push({ name: t.badgeNovice || "Novice", icon: "🌱" });
+    if (history.length >= 5) badges.push({ name: t.badgePro || "Tracker Pro", icon: "📊" });
+    if (grade === 'A' && history.length >= 3) badges.push({ name: t.badgeSaver || "Water Saver", icon: "💧" });
+    if (totalFootprint > 10000) badges.push({ name: t.badgeImpact || "Big Impact", icon: "🌊" });
+
+    // Chart Data
     const chartData = history.slice(-7).map((item, index) => ({
         name: item.item_name.substring(0, 10), // Truncate for label
         value: item.water_footprint_liters || 0
@@ -57,6 +83,38 @@ const TrackerDashboard = ({ history, onStart, t }) => {
                         <span className="sub-label">{t.totalFootprint}</span>
                         <h2>{totalFootprint.toFixed(0)} <span style={{ fontSize: '1rem' }}>{t.liters}</span></h2>
                         <span className="meta">Across {history.length} {t.itemsCount}</span>
+                    </div>
+                </div>
+
+                {/* Gamification Section */}
+                <div style={{ marginTop: '1.5rem', paddingTop: '1.5rem', borderTop: '1px solid rgba(255,255,255,0.1)' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
+                        <div>
+                            <span className="sub-label" style={{ marginBottom: '0.5rem' }}>{t.sustainabilityScore || "Sustainability Score"}</span>
+                            <div style={{ display: 'flex', alignItems: 'baseline', gap: '0.5rem' }}>
+                                <h1 style={{ color: getGradeColor(grade), margin: 0, fontSize: '3rem' }}>{grade}</h1>
+                                <span className="text-muted">{getGradeText(grade, t)}</span>
+                            </div>
+                        </div>
+                        <div style={{ textAlign: 'right' }}>
+                            <span className="sub-label" style={{ marginBottom: '0.5rem', display: 'block' }}>{t.badgesEarned || "Badges Earned"}</span>
+                            <div className="badges-container" style={{ display: 'flex', gap: '0.5rem' }}>
+                                {badges.map((badge, index) => (
+                                    <div key={index} title={badge.name} style={{
+                                        background: 'rgba(255,255,255,0.05)',
+                                        padding: '0.5rem',
+                                        borderRadius: '8px',
+                                        display: 'flex',
+                                        flexDirection: 'column',
+                                        alignItems: 'center',
+                                        minWidth: '60px'
+                                    }}>
+                                        <span style={{ fontSize: '1.5rem' }}>{badge.icon}</span>
+                                        <span style={{ fontSize: '0.6rem', marginTop: '0.2rem', color: 'var(--text-muted)' }}>{badge.name}</span>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
                     </div>
                 </div>
 
