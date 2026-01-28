@@ -202,12 +202,7 @@ function MainApplication({ user, onLogout }) {
 
             {/* Profile & Logout Button */}
             {user && (
-                <div style={{
-                    position: 'absolute',
-                    top: '1.5rem',
-                    right: '8.5rem', // Positioned to the left of language selector
-                    zIndex: 100
-                }}>
+                <div className="profile-button-container">
                     <button
                         onClick={() => setShowLogout(!showLogout)}
                         style={{

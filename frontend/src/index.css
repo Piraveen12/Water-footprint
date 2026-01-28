@@ -824,3 +824,58 @@ button {
     /* Stack stats on very small screens */
   }
 }
+
+/* Profile Button Container */
+.profile-button-container {
+  position: absolute;
+  top: 1.5rem;
+  right: 8.5rem;
+  z-index: 100;
+  transition: all 0.3s ease;
+}
+
+/* Responsive adjustments for header controls */
+@media (max-width: 768px) {
+  .language-selector {
+    top: 1rem;
+    right: 1rem;
+    padding: 0.4rem 2rem 0.4rem 0.8rem;
+    /* Smaller padding, keep space for arrow */
+    font-size: 0.8rem;
+    background-position: right 0.5rem top 50%;
+    /* Adjust arrow position */
+  }
+
+  .profile-button-container {
+    top: 1rem;
+    right: 8rem;
+    /* Move closer */
+  }
+}
+
+@media (max-width: 480px) {
+
+  /* On very small screens, maybe stack them or just tighten further */
+  .language-selector {
+    top: 0.8rem;
+    right: 0.5rem;
+    padding-right: 1.5rem;
+    max-width: 100px;
+    text-overflow: ellipsis;
+  }
+
+  .profile-button-container {
+    top: 0.8rem;
+    right: 7.5rem;
+    /* Ensure enough gap */
+    width: 35px;
+    /* Slightly smaller button container */
+    height: 35px;
+  }
+
+  .profile-button-container button {
+    width: 35px !important;
+    height: 35px !important;
+    padding: 0.3rem !important;
+  }
+}
