@@ -205,7 +205,7 @@ function MainApplication({ user, onLogout }) {
                 <div style={{
                     position: 'absolute',
                     top: '1.5rem',
-                    right: '10rem', // Positioned to the left of language selector
+                    right: '8.5rem', // Positioned to the left of language selector
                     zIndex: 100
                 }}>
                     <button

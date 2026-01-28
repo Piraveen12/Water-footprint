@@ -62,7 +62,7 @@ h1 {
 .language-selector {
   position: absolute;
   top: 1.5rem;
-  right: 1.5rem;
+  right: 1rem;
   background: rgba(255, 255, 255, 0.05);
   /* Glass effect */
   border: 1px solid rgba(255, 255, 255, 0.1);
@@ -713,7 +713,8 @@ button {
 
 /* Daily Life Gallery */
 .daily-life-gallery {
-  max-width: 1000px; /* Aligns with dashboard container */
+  max-width: 1000px;
+  /* Aligns with dashboard container */
   margin: 3rem auto;
   padding: 0 1rem;
 }
@@ -726,16 +727,17 @@ button {
 
 /* Mobile first default (2 columns is often too small for 100px minmax if screen is tiny, but 100px is safe for 320px+) */
 @media (min-width: 640px) {
-    .gallery-grid {
-        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-        gap: 1.5rem;
-    }
+  .gallery-grid {
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 1.5rem;
+  }
 }
 
 @media (min-width: 1024px) {
-    .gallery-grid {
-        grid-template-columns: repeat(4, 1fr); /* 4 items per row on laptop */
-    }
+  .gallery-grid {
+    grid-template-columns: repeat(4, 1fr);
+    /* 4 items per row on laptop */
+  }
 }
 
 .gallery-item {
@@ -786,34 +788,39 @@ button {
 
 /* Responsive Container Adjustments */
 @media (max-width: 768px) {
-    #root {
-        padding: 1rem;
-    }
-    
-    h1 {
-        font-size: 2.5rem;
-    }
-    
-    .subtitle {
-        font-size: 1rem;
-    }
-    
-    .dashboard-container, .scanner-container, .result-card {
-        width: 100%;
-        padding: 1.5rem;
-    }
-    
-    .stats-grid {
-        grid-template-columns: 1fr 1fr; /* 2x2 for mobile stats */
-    }
-    
-    .gallery-grid {
-        grid-template-columns: repeat(2, 1fr); /* 2 columns on mobile phones */
-    }
+  #root {
+    padding: 1rem;
+  }
+
+  h1 {
+    font-size: 2.5rem;
+  }
+
+  .subtitle {
+    font-size: 1rem;
+  }
+
+  .dashboard-container,
+  .scanner-container,
+  .result-card {
+    width: 100%;
+    padding: 1.5rem;
+  }
+
+  .stats-grid {
+    grid-template-columns: 1fr 1fr;
+    /* 2x2 for mobile stats */
+  }
+
+  .gallery-grid {
+    grid-template-columns: repeat(2, 1fr);
+    /* 2 columns on mobile phones */
+  }
 }
 
 @media (max-width: 480px) {
-    .stats-grid {
-        grid-template-columns: 1fr; /* Stack stats on very small screens */
-    }
+  .stats-grid {
+    grid-template-columns: 1fr;
+    /* Stack stats on very small screens */
+  }
 }
