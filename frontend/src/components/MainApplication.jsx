@@ -107,22 +107,28 @@ function MainApplication({ user, onLogout }) {
         }
     }
 
-    const handleTextSearch = async (e) => {
-        if (e.key === 'Enter' && textInput.trim()) {
-            setLoading(true)
-            setResult(null)
-            setScannedImage(null)
-            try {
-                const response = await axios.post('/api/footprint', { text: textInput })
-                setResult(response.data)
-                addToHistory(response.data)
-                toast.success(t.foundIt)
-            } catch (error) {
-                console.error("Error searching:", error)
-                toast.error(error.response?.data?.error || "Could not find that item.")
-            } finally {
-                setLoading(false)
-            }
+    const executeSearch = async () => {
+        if (!textInput.trim()) return;
+
+        setLoading(true)
+        setResult(null)
+        setScannedImage(null)
+        try {
+            const response = await axios.post('/api/footprint', { text: textInput })
+            setResult(response.data)
+            addToHistory(response.data)
+            toast.success(t.foundIt)
+        } catch (error) {
+            console.error("Error searching:", error)
+            toast.error(error.response?.data?.error || "Could not find that item.")
+        } finally {
+            setLoading(false)
+        }
+    }
+
+    const handleKeySearch = (e) => {
+        if (e.key === 'Enter') {
+            executeSearch()
         }
     }
 
@@ -291,9 +297,14 @@ function MainApplication({ user, onLogout }) {
                             placeholder={t.searchPlaceholder}
                             value={textInput}
                             onChange={(e) => setTextInput(e.target.value)}
-                            onKeyDown={handleTextSearch}
+                            onChange={(e) => setTextInput(e.target.value)}
+                            onKeyDown={handleKeySearch}
                         />
-                        <Search className="search-icon" />
+                        <Search
+                            className="search-icon"
+                            onClick={executeSearch}
+                            style={{ cursor: 'pointer' }}
+                        />
                     </div>
 
                     <Scanner onScan={handleScan} t={t} />
