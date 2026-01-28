@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { MessageCircle, X, Send, Bot, User } from 'lucide-react';
+import { MessageCircle, X, Send, Bot, User, Mic, MicOff } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import axios from 'axios';
 
@@ -10,6 +10,7 @@ const ChatBot = ({ t, language }) => {
     ]);
     const [input, setInput] = useState('');
     const [itemLoading, setItemLoading] = useState(false);
+    const [isListening, setIsListening] = useState(false);
     const messagesEndRef = useRef(null);
 
     const scrollToBottom = () => {
@@ -40,6 +41,56 @@ const ChatBot = ({ t, language }) => {
         } finally {
             setItemLoading(false);
         }
+    };
+
+    const toggleListening = () => {
+        if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
+            alert("Your browser does not support voice input. Please use Chrome or Edge.");
+            return;
+        }
+
+        if (isListening) {
+            setIsListening(false);
+            window.recognition?.stop();
+            return;
+        }
+
+        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        const recognition = new SpeechRecognition();
+        window.recognition = recognition;
+
+        const langMap = {
+            'english': 'en-US',
+            'hindi': 'hi-IN',
+            'tamil': 'ta-IN',
+            'telugu': 'te-IN',
+            'malayalam': 'ml-IN',
+            'kannada': 'kn-IN'
+        };
+        recognition.lang = langMap[language] || 'en-US';
+        recognition.interimResults = false;
+        recognition.maxAlternatives = 1;
+
+        recognition.onstart = () => {
+            setIsListening(true);
+        };
+
+        recognition.onresult = (event) => {
+            const transcript = event.results[0][0].transcript;
+            setInput(transcript);
+            setIsListening(false);
+        };
+
+        recognition.onerror = (event) => {
+            console.error("Speech error", event.error);
+            setIsListening(false);
+        };
+
+        recognition.onend = () => {
+            setIsListening(false);
+        };
+
+        recognition.start();
     };
 
     return (
@@ -98,6 +149,20 @@ const ChatBot = ({ t, language }) => {
                                 value={input}
                                 onChange={(e) => setInput(e.target.value)}
                             />
+                            <button
+                                type="button"
+                                onClick={toggleListening}
+                                className={`mic-btn ${isListening ? 'listening' : ''}`}
+                                style={{
+                                    background: 'none',
+                                    border: 'none',
+                                    cursor: 'pointer',
+                                    color: isListening ? '#ef4444' : 'var(--text-secondary)',
+                                    padding: '0 0.5rem'
+                                }}
+                            >
+                                {isListening ? <MicOff size={18} /> : <Mic size={18} />}
+                            </button>
                             <button type="submit" disabled={!input.trim() || itemLoading}>
                                 <Send size={16} />
                             </button>
