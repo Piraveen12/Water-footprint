@@ -9,7 +9,7 @@ import HowToUse from './HowToUse'
 import AboutProject from './AboutProject'
 import { translations } from '../translations'
 import '../App.css'
-import { Droplets, Search, Loader2, LayoutDashboard, Scan, HelpCircle, Info, LogOut } from 'lucide-react'
+import { Droplets, Search, Loader2, LayoutDashboard, Scan, HelpCircle, Info, LogOut, User } from 'lucide-react'
 
 function MainApplication({ user, onLogout }) {
     const [loading, setLoading] = useState(false)
@@ -21,6 +21,7 @@ function MainApplication({ user, onLogout }) {
     const [activeTab, setActiveTab] = useState('scan')
     const [showHelp, setShowHelp] = useState(false)
     const [showAbout, setShowAbout] = useState(false)
+    const [showLogout, setShowLogout] = useState(false)
 
     // Helper to get text based on language (default to English if key missing)
     const t = translations[language] || translations['english'];
@@ -142,29 +143,75 @@ function MainApplication({ user, onLogout }) {
             </select>
 
             {/* Logout Button */}
+            {/* Profile & Logout Button */}
             {user && (
-                <button
-                    id="logout-btn"
-                    onClick={onLogout}
-                    style={{
-                        position: 'absolute',
-                        top: '1.5rem',
-                        right: '10rem', // Positioned to the left of language selector
-                        background: 'rgba(255,255,255,0.1)',
-                        border: '1px solid rgba(255,255,255,0.1)',
-                        color: 'white',
-                        padding: '0.5rem 1rem',
-                        borderRadius: '12px',
-                        cursor: 'pointer',
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '0.5rem',
-                        fontSize: '0.9rem'
-                    }}
-                >
-                    <LogOut size={16} />
-                    <span>{t.logout || "Logout"}</span>
-                </button>
+                <div style={{
+                    position: 'absolute',
+                    top: '1.5rem',
+                    right: '10rem', // Positioned to the left of language selector
+                    zIndex: 100
+                }}>
+                    <button
+                        onClick={() => setShowLogout(!showLogout)}
+                        style={{
+                            background: 'rgba(255,255,255,0.1)',
+                            border: '1px solid rgba(255,255,255,0.1)',
+                            color: 'white',
+                            padding: '0.5rem',
+                            borderRadius: '50%',
+                            cursor: 'pointer',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            width: '40px',
+                            height: '40px'
+                        }}
+                        title={user.name}
+                    >
+                        {user.picture ? (
+                            <img
+                                src={user.picture}
+                                alt="Profile"
+                                style={{
+                                    width: '100%',
+                                    height: '100%',
+                                    borderRadius: '50%',
+                                    objectFit: 'cover'
+                                }}
+                            />
+                        ) : (
+                            <User size={20} />
+                        )}
+                    </button>
+
+                    {showLogout && (
+                        <button
+                            id="logout-btn"
+                            onClick={onLogout}
+                            style={{
+                                position: 'absolute',
+                                top: '110%',
+                                right: 0,
+                                background: 'rgba(30, 30, 30, 0.9)',
+                                border: '1px solid rgba(255,255,255,0.1)',
+                                color: 'white',
+                                padding: '0.5rem 1rem',
+                                borderRadius: '8px',
+                                cursor: 'pointer',
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: '0.5rem',
+                                fontSize: '0.9rem',
+                                whiteSpace: 'nowrap',
+                                boxShadow: '0 4px 12px rgba(0,0,0,0.5)',
+                                backdropFilter: 'blur(10px)'
+                            }}
+                        >
+                            <LogOut size={16} />
+                            <span>{t.logout || "Logout"}</span>
+                        </button>
+                    )}
+                </div>
             )}
 
             <button
