@@ -80,7 +80,8 @@ export const translations = {
         googleSignIn: "Sign in with Google",
         logout: "Logout",
         welcomeBack: "Welcome back",
-        secureAuth: "Secure Authentication"
+        secureAuth: "Secure Authentication",
+        dailyLifeTitle: "Daily Life Footprint"
     },
     tamil: {
         appTitle: "நீர் தடம் (Water Footprint)",
@@ -163,7 +164,8 @@ export const translations = {
         googleSignIn: "Google மூலம் உள்நுழையவும்",
         logout: "வெளியேறு",
         welcomeBack: "மீண்டும் வருக",
-        secureAuth: "பாதுகாப்பான அங்கீகாரம்"
+        secureAuth: "பாதுகாப்பான அங்கீகாரம்",
+        dailyLifeTitle: "தினசரி நீர் தடம்"
     },
     hindi: {
         appTitle: "जल पदचिह्न (Water Footprint)",
@@ -231,7 +233,8 @@ export const translations = {
         googleSignIn: "Google के साथ साइन इन करें",
         logout: "लॉग आउट",
         welcomeBack: "वापसी पर स्वागत है",
-        secureAuth: "सुरक्षित प्रमाणीकरण"
+        secureAuth: "सुरक्षित प्रमाणीकरण",
+        dailyLifeTitle: "दैनिक जीवन जल पदचिह्न"
     },
     telugu: {
         appTitle: "నీటి పాదముద్ర (Water Footprint)",
@@ -311,7 +314,8 @@ export const translations = {
         googleSignIn: "Googleతో సైన్ ఇన్ చేయండి",
         logout: "లాగ్ అవుట్",
         welcomeBack: "తిరిగి స్వాగతం",
-        secureAuth: "సురక్షిత ప్రమాణీకరణ"
+        secureAuth: "సురక్షిత ప్రమాణీకరణ",
+        dailyLifeTitle: "రోజువారీ జీవిత నీటి పాదముద్ర"
     },
     malayalam: {
         appTitle: "ജല കാൽപ്പാടുകൾ (Water Footprint)",
@@ -349,7 +353,7 @@ export const translations = {
         step3Title: "3. ട്രാക്ക് ചെയ്യുക",
         step3Desc: "'എന്റെ ട്രാക്കർ' ടാബിലേക്ക് മാറുക.",
         step4Title: "4. AI ശുപാർശകൾ",
-        step4Desc: "ട്രാക്കർ ടാബിൽ 'ശീലങ്ങൾ വിശകലനം ചെയ്യുക' ക്ലിക്ക് ചെയ്യുക.",
+        step4Desc: "ട്രാക്കർ ടാബിൽ 'ശീലങ്ങൾ വിശകലനം ചെയ്യുക' ക്ലിಕ್ ചെയ്യുക.",
         aboutTitle: "പ്രോജക്റ്റ് വിവരങ്ങൾ",
         coreInnovation: "പ്രധാന കണ്ടുപിടുത്തം",
         coreDesc: "AI സ്കാനിംഗ്: Google Gemini വഴി ഉൽപ്പന്നങ്ങളെ തിരിച്ചറിയുന്നു.",
@@ -391,7 +395,8 @@ export const translations = {
         googleSignIn: "Google ഉപയോഗിച്ച് പ്രവേശിക്കുക",
         logout: "പുറത്തുകടക്കുക",
         welcomeBack: "തിരികെ സ്വാഗതം",
-        secureAuth: "സുരക്ഷിത പരിശോധന"
+        secureAuth: "സുരക്ഷിത പരിശോധന",
+        dailyLifeTitle: "ദൈനംദിന ജീവിതത്തിലെ ജല കാൽപ്പാടുകൾ"
     },
     kannada: {
         appTitle: "ನೀರಿನ ಹೆಜ್ಜೆಗುರುತು (Water Footprint)",
@@ -471,6 +476,7 @@ export const translations = {
         googleSignIn: "Google ಮೂಲಕ ಸೈನ್ ಇನ್ ಮಾಡಿ",
         logout: "ಲಾಗ್ ಔಟ್",
         welcomeBack: "ಮತ್ತೆ ಸ್ವಾಗತ",
-        secureAuth: "ಸುರಕ್ಷಿತ ದೃಢೀಕರಣ"
+        secureAuth: "ಸುರಕ್ಷಿತ ದೃಢೀಕರಣ",
+        dailyLifeTitle: "ದೈನಂದಿನ ಜೀವನದ ನೀರಿನ ಹೆಜ್ಜೆಗುರುತು"
     }
 };

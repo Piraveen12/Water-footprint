@@ -10,6 +10,7 @@ import AboutProject from './AboutProject'
 import { translations } from '../translations'
 import '../App.css'
 import { Droplets, Search, Loader2, LayoutDashboard, Scan, HelpCircle, Info, LogOut, User } from 'lucide-react'
+import DailyLifeGallery from './DailyLifeGallery'
 
 function MainApplication({ user, onLogout }) {
     const [loading, setLoading] = useState(false)
@@ -38,6 +39,44 @@ function MainApplication({ user, onLogout }) {
             }
         }
     }, [user])
+
+    // Auto-logout Logic
+    useEffect(() => {
+        if (!user) return;
+
+        // Session timeout duration (15 minutes)
+        const TIMEOUT_DURATION = 15 * 60 * 1000;
+
+        let lastActivity = Date.now();
+        let intervalId;
+
+        const updateActivity = () => {
+            lastActivity = Date.now();
+        };
+
+        // Events to monitor
+        const events = ['mousemove', 'keydown', 'click', 'scroll', 'touchstart'];
+
+        // Add listeners (throttled naturally by just updating a variable)
+        events.forEach(event => {
+            window.addEventListener(event, updateActivity);
+        });
+
+        // Check every minute
+        intervalId = setInterval(() => {
+            if (Date.now() - lastActivity > TIMEOUT_DURATION) {
+                toast.error("Session timed out due to inactivity");
+                if (onLogout) onLogout();
+            }
+        }, 60000);
+
+        return () => {
+            events.forEach(event => {
+                window.removeEventListener(event, updateActivity);
+            });
+            if (intervalId) clearInterval(intervalId);
+        };
+    }, [user, onLogout]);
 
     const fetchHistory = async (userId) => {
         try {
@@ -107,14 +146,27 @@ function MainApplication({ user, onLogout }) {
         }
     }
 
-    const executeSearch = async () => {
-        if (!textInput.trim()) return;
+
+
+    // ... existing helper function ...
+
+    // Updated executeSearch to accept direct query
+    const executeSearch = async (query = null) => {
+        // use query if passed, otherwise state
+        const searchText = typeof query === 'string' ? query : textInput;
+
+        if (!searchText || !searchText.trim()) return;
+
+        // Update state if query was passed directly so UI reflects it
+        if (typeof query === 'string') {
+            setTextInput(query);
+        }
 
         setLoading(true)
         setResult(null)
         setScannedImage(null)
         try {
-            const response = await axios.post('/api/footprint', { text: textInput })
+            const response = await axios.post('/api/footprint', { text: searchText })
             setResult(response.data)
             addToHistory(response.data)
             toast.success(t.foundIt)
@@ -148,7 +200,6 @@ function MainApplication({ user, onLogout }) {
                 <option value="kannada">Kannada</option>
             </select>
 
-            {/* Logout Button */}
             {/* Profile & Logout Button */}
             {user && (
                 <div style={{
@@ -301,12 +352,17 @@ function MainApplication({ user, onLogout }) {
                         />
                         <Search
                             className="search-icon"
-                            onClick={executeSearch}
+                            onClick={() => executeSearch()}
                             style={{ cursor: 'pointer' }}
                         />
                     </div>
 
                     <Scanner onScan={handleScan} t={t} />
+
+                    {/* Show Daily Life Gallery only when no result is active */}
+                    {!result && !loading && (
+                        <DailyLifeGallery onSelect={executeSearch} t={t} />
+                    )}
 
                     {loading && (
                         <div id="loading-indicator" style={{ margin: '2rem' }}>
