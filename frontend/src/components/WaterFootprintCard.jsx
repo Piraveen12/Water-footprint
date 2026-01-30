@@ -142,7 +142,10 @@ const WaterFootprintCard = ({ data, language, image, t }) => {
                                             <Cell key={`cell-${index}`} fill={entry.color} />
                                         ))}
                                     </Pie>
-                                    <Tooltip contentStyle={{ backgroundColor: '#1e293b', border: 'none' }} />
+                                    <Tooltip
+                                        contentStyle={{ backgroundColor: '#1e293b', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '12px', boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)' }}
+                                        itemStyle={{ color: '#f8fafc' }}
+                                    />
                                 </PieChart>
                             </ResponsiveContainer>
                         </div>
@@ -161,7 +164,12 @@ const WaterFootprintCard = ({ data, language, image, t }) => {
                                     <CartesianGrid strokeDasharray="3 3" opacity={0.1} />
                                     <XAxis dataKey="region" stroke="#94a3b8" fontSize={10} />
                                     <YAxis stroke="#94a3b8" fontSize={10} />
-                                    <Tooltip cursor={{ fill: 'rgba(255,255,255,0.05)' }} contentStyle={{ backgroundColor: '#1e293b', border: 'none' }} />
+                                    <Tooltip
+                                        cursor={{ fill: 'rgba(255,255,255,0.05)' }}
+                                        contentStyle={{ backgroundColor: '#1e293b', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '12px', boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)' }}
+                                        itemStyle={{ color: '#f8fafc' }}
+                                        labelStyle={{ color: '#94a3b8' }}
+                                    />
                                     <Bar dataKey="value" fill="#eab308" radius={[4, 4, 0, 0]} />
                                 </BarChart>
                             </ResponsiveContainer>
