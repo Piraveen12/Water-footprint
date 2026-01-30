@@ -829,7 +829,8 @@ button {
 .profile-button-container {
   position: absolute;
   top: 1.5rem;
-  right: 8.5rem;
+  right: 11.5rem;
+  /* Increased from 8.5rem to prevent overlap */
   z-index: 100;
   transition: all 0.3s ease;
 }
@@ -848,7 +849,8 @@ button {
 
   .profile-button-container {
     top: 1rem;
-    right: 8rem;
+    right: 10rem;
+    /* Increased from 8rem */
     /* Move closer */
   }
 }
@@ -866,7 +868,8 @@ button {
 
   .profile-button-container {
     top: 0.8rem;
-    right: 7.5rem;
+    right: 9rem;
+    /* Increased from 7.5rem */
     /* Ensure enough gap */
     width: 35px;
     /* Slightly smaller button container */
