@@ -1,0 +1,238 @@
+[
+    {
+        "item_name": "Apple",
+        "scientific_name": "Malus domestica",
+        "category": "Fruit",
+        "water_footprint_liters": 70,
+        "water_footprint_unit": "L/unit (150g)",
+        "description": "It takes approximately 70 liters of water to produce a single apple. Most of this is green water (rainwater) used by the apple tree.",
+        "severity": "Low",
+        "breakdown": {
+            "green_water": 48,
+            "blue_water": 10,
+            "grey_water": 12
+        },
+        "carbon_footprint": "0.04 kg CO2e/unit",
+        "land_use": "0.2 m²/unit",
+        "tips": [
+            "Buy locally grown apples to save transport water.",
+            "Don't peel the apple; the skin has nutrients."
+        ]
+    },
+    {
+        "item_name": "Cotton T-Shirt",
+        "scientific_name": "Gossypium",
+        "category": "Clothing",
+        "water_footprint_liters": 2700,
+        "water_footprint_unit": "L/unit",
+        "description": "A single cotton t-shirt requires about 2700 liters of water, primarily for growing the cotton crop.",
+        "severity": "High",
+        "breakdown": {
+            "green_water": 1200,
+            "blue_water": 1100,
+            "grey_water": 400
+        },
+        "carbon_footprint": "6 kg CO2e/unit",
+        "land_use": "4 m²/unit",
+        "tips": [
+            "Wash less frequently.",
+            "Buy organic cotton or recycled materials."
+        ]
+    },
+    {
+        "item_name": "Beef Burger",
+        "scientific_name": "Bos taurus",
+        "category": "Food",
+        "water_footprint_liters": 2400,
+        "water_footprint_unit": "L/burger (150g beef)",
+        "description": "Beef has a very high water footprint. Producing the beef for one burger takes roughly 2400 liters of water.",
+        "severity": "High",
+        "breakdown": {
+            "green_water": 2000,
+            "blue_water": 200,
+            "grey_water": 200
+        },
+        "carbon_footprint": "4 kg CO2e/unit",
+        "land_use": "20 m²/unit",
+        "tips": [
+            "Reduce meat consumption.",
+            "Try plant-based alternatives."
+        ]
+    },
+    {
+        "item_name": "Rice",
+        "scientific_name": "Oryza sativa",
+        "category": "Food",
+        "water_footprint_liters": 2500,
+        "water_footprint_unit": "L/kg",
+        "description": "Rice is a water-intensive crop, often grown in flooded fields. It takes about 2500 liters of water to produce 1kg of rice.",
+        "severity": "Medium",
+        "breakdown": {
+            "green_water": 1500,
+            "blue_water": 700,
+            "grey_water": 300
+        },
+        "carbon_footprint": "4 kg CO2e/kg",
+        "land_use": "2 m²/kg",
+        "tips": [
+            "Cook only what you need.",
+            "Consider varieties grown with less water (SRI method)."
+        ]
+    },
+    {
+        "item_name": "Coffee (Cup)",
+        "scientific_name": "Coffea",
+        "category": "Beverage",
+        "water_footprint_liters": 140,
+        "water_footprint_unit": "L/cup (125ml)",
+        "description": "A single cup of coffee requires about 140 liters of water, mostly for growing the coffee beans.",
+        "severity": "Medium",
+        "breakdown": {
+            "green_water": 130,
+            "blue_water": 2,
+            "grey_water": 8
+        },
+        "carbon_footprint": "0.1 kg CO2e/cup",
+        "land_use": "0.1 m²/cup",
+        "tips": [
+            "Use reusable cups.",
+            "Choose shade-grown coffee."
+        ]
+    },
+    {
+        "item_name": "Chocolate Bar",
+        "scientific_name": "Theobroma cacao",
+        "category": "Food",
+        "water_footprint_liters": 1700,
+        "water_footprint_unit": "L/bar (100g)",
+        "description": "Chocolate is highly water-intensive. Producing a 100g bar takes about 1700 liters of water.",
+        "severity": "High",
+        "breakdown": {
+            "green_water": 1600,
+            "blue_water": 10,
+            "grey_water": 90
+        },
+        "carbon_footprint": "0.5 kg CO2e/bar",
+        "land_use": "1.5 m²/bar",
+        "tips": [
+            "Consume in moderation.",
+            "Look for sustainable certifications (Fairtrade, Rainforest Alliance)."
+        ]
+    },
+    {
+        "item_name": "Pair of Jeans",
+        "scientific_name": "Gossypium (Denim)",
+        "category": "Clothing",
+        "water_footprint_liters": 8000,
+        "water_footprint_unit": "L/unit",
+        "description": "A single pair of denim jeans requires roughly 8000 liters of water, from cotton growth to dyeing and finishing.",
+        "severity": "High",
+        "breakdown": {
+            "green_water": 4000,
+            "blue_water": 3000,
+            "grey_water": 1000
+        },
+        "carbon_footprint": "33 kg CO2e/unit",
+        "land_use": "10 m²/unit",
+        "tips": [
+            "Buy vintage or second-hand.",
+            "Wash only when necessary."
+        ]
+    },
+    {
+        "item_name": "Egg",
+        "scientific_name": "Gallus gallus domesticus",
+        "category": "Food",
+        "water_footprint_liters": 200,
+        "water_footprint_unit": "L/egg (60g)",
+        "description": "Producing a single egg takes about 200 liters of water, mainly for the chicken feed.",
+        "severity": "Low",
+        "breakdown": {
+            "green_water": 140,
+            "blue_water": 20,
+            "grey_water": 40
+        },
+        "carbon_footprint": "0.3 kg CO2e/egg",
+        "land_use": "0.5 m²/egg",
+        "tips": [
+            "Choose free-range or organic eggs."
+        ]
+    },
+    {
+        "item_name": "Glass of Milk",
+        "scientific_name": "Bos taurus",
+        "category": "Beverage",
+        "water_footprint_liters": 200,
+        "water_footprint_unit": "L/glass (200ml)",
+        "description": "Milk production is water-intensive due to the water needed for growing cattle feed.",
+        "severity": "Medium",
+        "breakdown": {
+            "green_water": 170,
+            "blue_water": 15,
+            "grey_water": 15
+        },
+        "carbon_footprint": "0.6 kg CO2e/glass",
+        "land_use": "0.5 m²/glass",
+        "tips": [
+            "Try plant-based milks (oat, almond, soy) which often use less water."
+        ]
+    },
+    {
+        "item_name": "Chicken Breast",
+        "scientific_name": "Gallus gallus domesticus",
+        "category": "Food",
+        "water_footprint_liters": 650,
+        "water_footprint_unit": "L/breast (150g)",
+        "description": "Chicken has a lower water footprint compared to beef but still requires significant water for feed production.",
+        "severity": "Medium",
+        "breakdown": {
+            "green_water": 500,
+            "blue_water": 50,
+            "grey_water": 100
+        },
+        "carbon_footprint": "1 kg CO2e/breast",
+        "land_use": "1.5 m²/breast",
+        "tips": [
+            "Choose chicken over red meat for a lower footprint."
+        ]
+    },
+    {
+        "item_name": "Potato",
+        "scientific_name": "Solanum tuberosum",
+        "category": "Vegetable",
+        "water_footprint_liters": 25,
+        "water_footprint_unit": "L/potato (150g)",
+        "description": "Potatoes are relatively water-efficient compared to other crops like rice or wheat.",
+        "severity": "Low",
+        "breakdown": {
+            "green_water": 15,
+            "blue_water": 5,
+            "grey_water": 5
+        },
+        "carbon_footprint": "0.05 kg CO2e/potato",
+        "land_use": "0.1 m²/potato",
+        "tips": [
+            "Eat potatoes with the skin on to reduce waste.",
+            "Steam instead of boil to save cooking water."
+        ]
+    },
+    {
+        "item_name": "Cheese",
+        "scientific_name": "Formatted milk",
+        "category": "Food",
+        "water_footprint_liters": 250,
+        "water_footprint_unit": "L/slice (50g)",
+        "description": "Cheese is a concentrated dairy product, meaning it carries the water footprint of a large amount of milk.",
+        "severity": "Medium",
+        "breakdown": {
+            "green_water": 200,
+            "blue_water": 30,
+            "grey_water": 20
+        },
+        "carbon_footprint": "0.8 kg CO2e/slice",
+        "land_use": "1.0 m²/slice",
+        "tips": [
+            "Consume in moderation as a treat."
+        ]
+    }
+]
