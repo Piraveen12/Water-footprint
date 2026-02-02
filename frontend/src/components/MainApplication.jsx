@@ -11,6 +11,8 @@ import { translations } from '../translations'
 import '../App.css'
 import { Droplets, Search, Loader2, LayoutDashboard, Scan, HelpCircle, Info, LogOut, User } from 'lucide-react'
 import DailyLifeGallery from './DailyLifeGallery'
+import WaterCalculatorWizard from './WaterCalculatorWizard'
+import { Calculator } from 'lucide-react'
 
 function MainApplication({ user, onLogout }) {
     const [loading, setLoading] = useState(false)
@@ -184,6 +186,17 @@ function MainApplication({ user, onLogout }) {
         }
     }
 
+    const handleWizardComplete = (val) => {
+        const newItem = {
+            item_name: "Daily Baseline Estimate",
+            water_footprint_liters: val,
+            category: "Habit"
+        };
+        addToHistory(newItem);
+        toast.success(t.analysisComplete || "Baseline added!");
+        setActiveTab('tracker');
+    }
+
     return (
         <>
             <select
@@ -331,6 +344,13 @@ function MainApplication({ user, onLogout }) {
                 >
                     <LayoutDashboard size={18} /> {t.trackerTab}
                 </button>
+                <button
+                    id="calculator-tab-btn"
+                    className={`tab-btn ${activeTab === 'calculator' ? 'active' : ''}`}
+                    onClick={() => setActiveTab('calculator')}
+                >
+                    <Calculator size={18} /> {t.calculatorTab}
+                </button>
             </div>
 
             {activeTab === 'scan' ? (
@@ -368,8 +388,10 @@ function MainApplication({ user, onLogout }) {
 
                     <WaterFootprintCard data={result} language={language} image={scannedImage} t={t} />
                 </>
-            ) : (
+            ) : activeTab === 'tracker' ? (
                 <TrackerDashboard history={history} onStart={() => setActiveTab('scan')} t={t} />
+            ) : (
+                <WaterCalculatorWizard onComplete={handleWizardComplete} t={t} />
             )}
 
             <ChatBot t={t} language={language} />
