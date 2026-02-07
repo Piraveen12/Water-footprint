@@ -38,10 +38,47 @@ const TrackerDashboard = ({ history, onStart, t }) => {
     if (totalFootprint > 10000) badges.push({ name: t.badgeImpact || "Big Impact", icon: "🌊" });
 
     // Chart Data
-    const chartData = history.slice(-7).map((item, index) => ({
-        name: item.item_name.substring(0, 10), // Truncate for label
-        value: item.water_footprint_liters || 0
-    }));
+    // Helper to format date key YYYY-MM-DD
+    const getDateKey = (isoString) => {
+        if (!isoString) return new Date().toISOString().split('T')[0];
+        try {
+            return new Date(isoString).toISOString().split('T')[0];
+        } catch (e) {
+            return new Date().toISOString().split('T')[0];
+        }
+    };
+
+    // Group history by date
+    const groupedHistory = history.reduce((acc, item) => {
+        const key = getDateKey(item.timestamp);
+        if (!acc[key]) acc[key] = [];
+        acc[key].push(item);
+        return acc;
+    }, {});
+
+    // Sort dates descending (newest first)
+    const sortedDates = Object.keys(groupedHistory).sort((a, b) => new Date(b) - new Date(a));
+
+    // Daily totals for chart
+    const dailyTotals = history.reduce((acc, item) => {
+        const key = getDateKey(item.timestamp);
+        if (!acc[key]) acc[key] = 0;
+        acc[key] += (item.water_footprint_liters || 0);
+        return acc;
+    }, {});
+
+    // Generate last 7 days for chart
+    const last7DaysData = [];
+    for (let i = 6; i >= 0; i--) {
+        const d = new Date();
+        d.setDate(d.getDate() - i);
+        const key = d.toISOString().split('T')[0];
+        last7DaysData.push({
+            name: d.toLocaleDateString(undefined, { weekday: 'short', day: 'numeric' }),
+            value: dailyTotals[key] || 0,
+            fullDate: key
+        });
+    }
 
     const analyzeHabits = async () => {
         setLoading(true);
@@ -121,7 +158,7 @@ const TrackerDashboard = ({ history, onStart, t }) => {
                 <div style={{ marginTop: '2rem', height: '250px' }}>
                     <h4 style={{ marginBottom: '1rem' }}>{t.usageTrend}</h4>
                     <ResponsiveContainer width="100%" height="100%">
-                        <BarChart data={chartData}>
+                        <BarChart data={last7DaysData}>
                             <CartesianGrid strokeDasharray="3 3" opacity={0.1} />
                             <XAxis dataKey="name" stroke="#94a3b8" fontSize={10} />
                             <YAxis stroke="#94a3b8" fontSize={10} />
@@ -180,17 +217,36 @@ const TrackerDashboard = ({ history, onStart, t }) => {
             </div>
 
             <div className="dashboard-card">
-                <h3>{t.recentScans}</h3>
-                <div className="history-list" style={{ display: 'flex', flexDirection: 'column', gap: '0.8rem' }}>
-                    {history.slice().reverse().slice(0, 5).map((item, i) => ( // Show last 5
-                        <div key={i} className="comp-row" style={{ gridTemplateColumns: '1fr auto', padding: '0.5rem', background: 'rgba(255,255,255,0.03)', borderRadius: '8px' }}>
-                            <div>
-                                <span style={{ fontWeight: '600', display: 'block' }}>{item.item_name}</span>
-                                <span style={{ fontSize: '0.8rem', color: '#94a3b8' }}>{new Date(item.timestamp).toLocaleDateString()}</span>
+                <h3>{t.history || "Date-wise History"}</h3>
+                <div className="history-list" style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+                    {sortedDates.map((dateKey) => (
+                        <div key={dateKey}>
+                            <h5 style={{
+                                color: '#94a3b8',
+                                borderBottom: '1px solid rgba(255,255,255,0.1)',
+                                paddingBottom: '0.5rem',
+                                marginBottom: '0.8rem',
+                                fontSize: '0.9rem'
+                            }}>
+                                {new Date(dateKey).toLocaleDateString(undefined, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
+                                <span style={{ float: 'right', color: 'var(--primary)' }}>
+                                    {groupedHistory[dateKey].reduce((sum, item) => sum + (item.water_footprint_liters || 0), 0).toFixed(0)} L
+                                </span>
+                            </h5>
+                            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.8rem' }}>
+                                {groupedHistory[dateKey].map((item, i) => (
+                                    <div key={i} className="comp-row" style={{ gridTemplateColumns: '1fr auto', padding: '0.5rem', background: 'rgba(255,255,255,0.03)', borderRadius: '8px' }}>
+                                        <div>
+                                            <span style={{ fontWeight: '600', display: 'block' }}>{item.item_name}</span>
+                                            <span style={{ fontSize: '0.8rem', color: '#94a3b8' }}>{new Date(item.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
+                                        </div>
+                                        <span style={{ color: '#22d3ee', fontWeight: 'bold' }}>{item.water_footprint_liters} L</span>
+                                    </div>
+                                ))}
                             </div>
-                            <span style={{ color: '#22d3ee', fontWeight: 'bold' }}>{item.water_footprint_liters} L</span>
                         </div>
                     ))}
+                    {history.length === 0 && <p className="text-muted">{t.noHistory}</p>}
                 </div>
             </div>
         </div>
