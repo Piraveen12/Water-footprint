@@ -304,87 +304,89 @@ function MainApplication({ user, onLogout }) {
                 </div>
             </header>
 
-            <div className="mobile-subheader">
-                {user && (
-                    <p className="welcome-text">
-                        {t.welcomeBack || "Welcome back"}, <span className="text-primary">{user.given_name || user.name}</span>!
-                    </p>
-                )}
-            </div>
+            <div className="app-container">
+                <div className="mobile-subheader">
+                    {user && (
+                        <p className="welcome-text">
+                            {t.welcomeBack || "Welcome back"}, <span className="text-primary">{user.given_name || user.name}</span>!
+                        </p>
+                    )}
+                </div>
 
-            <AnimatePresence mode="wait">
-                {activeTab === 'scan' && (
-                    <motion.div
-                        key="scan"
-                        initial={{ opacity: 0, x: -20 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        exit={{ opacity: 0, x: 20 }}
-                        transition={{ duration: 0.3 }}
-                    >
-                        <div className="search-container">
-                            <input
-                                id="search-input"
-                                type="text"
-                                className="search-box"
-                                placeholder={t.searchPlaceholder}
-                                value={textInput}
-                                onChange={(e) => setTextInput(e.target.value)}
-                                onKeyDown={handleKeySearch}
-                            />
-                            <Search
-                                className="search-icon"
-                                onClick={() => executeSearch()}
-                                style={{ cursor: 'pointer' }}
-                            />
-                        </div>
-
-                        <Scanner onScan={handleScan} t={t} />
-
-                        {/* Show Daily Life Gallery only when no result is active */}
-                        {!result && !loading && (
-                            <DailyLifeGallery onSelect={executeSearch} t={t} />
-                        )}
-
-                        {loading && (
-                            <div id="loading-indicator" style={{ margin: '2rem' }}>
-                                <Loader2 className="spin" size={32} />
-                                <p>{t.analyzing}</p>
+                <AnimatePresence mode="wait">
+                    {activeTab === 'scan' && (
+                        <motion.div
+                            key="scan"
+                            initial={{ opacity: 0, x: -20 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            exit={{ opacity: 0, x: 20 }}
+                            transition={{ duration: 0.3 }}
+                        >
+                            <div className="search-container">
+                                <input
+                                    id="search-input"
+                                    type="text"
+                                    className="search-box"
+                                    placeholder={t.searchPlaceholder}
+                                    value={textInput}
+                                    onChange={(e) => setTextInput(e.target.value)}
+                                    onKeyDown={handleKeySearch}
+                                />
+                                <Search
+                                    className="search-icon"
+                                    onClick={() => executeSearch()}
+                                    style={{ cursor: 'pointer' }}
+                                />
                             </div>
-                        )}
 
-                        <WaterFootprintCard data={result} language={language} image={scannedImage} t={t} />
-                    </motion.div>
-                )}
+                            <Scanner onScan={handleScan} t={t} />
 
-                {activeTab === 'tracker' && (
-                    <motion.div
-                        key="tracker"
-                        initial={{ opacity: 0, x: -20 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        exit={{ opacity: 0, x: 20 }}
-                        transition={{ duration: 0.3 }}
-                    >
-                        <TrackerDashboard history={history} onStart={() => setActiveTab('scan')} t={t} />
-                    </motion.div>
-                )}
+                            {/* Show Daily Life Gallery only when no result is active */}
+                            {!result && !loading && (
+                                <DailyLifeGallery onSelect={executeSearch} t={t} />
+                            )}
 
-                {activeTab === 'calculator' && (
-                    <motion.div
-                        key="calculator"
-                        initial={{ opacity: 0, x: -20 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        exit={{ opacity: 0, x: 20 }}
-                        transition={{ duration: 0.3 }}
-                    >
-                        <WaterCalculatorWizard onComplete={handleWizardComplete} t={t} />
-                    </motion.div>
-                )}
-            </AnimatePresence>
+                            {loading && (
+                                <div id="loading-indicator" style={{ margin: '2rem' }}>
+                                    <Loader2 className="spin" size={32} />
+                                    <p>{t.analyzing}</p>
+                                </div>
+                            )}
 
-            <ChatBot t={t} language={language} />
+                            <WaterFootprintCard data={result} language={language} image={scannedImage} t={t} />
+                        </motion.div>
+                    )}
 
-            <HowToUse isOpen={showHelp} onClose={() => setShowHelp(false)} t={t} />
-            <AboutProject isOpen={showAbout} onClose={() => setShowAbout(false)} t={t} />
+                    {activeTab === 'tracker' && (
+                        <motion.div
+                            key="tracker"
+                            initial={{ opacity: 0, x: -20 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            exit={{ opacity: 0, x: 20 }}
+                            transition={{ duration: 0.3 }}
+                        >
+                            <TrackerDashboard history={history} onStart={() => setActiveTab('scan')} t={t} />
+                        </motion.div>
+                    )}
+
+                    {activeTab === 'calculator' && (
+                        <motion.div
+                            key="calculator"
+                            initial={{ opacity: 0, x: -20 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            exit={{ opacity: 0, x: 20 }}
+                            transition={{ duration: 0.3 }}
+                        >
+                            <WaterCalculatorWizard onComplete={handleWizardComplete} t={t} />
+                        </motion.div>
+                    )}
+                </AnimatePresence>
+
+                <ChatBot t={t} language={language} />
+
+                <HowToUse isOpen={showHelp} onClose={() => setShowHelp(false)} t={t} />
+                <AboutProject isOpen={showAbout} onClose={() => setShowAbout(false)} t={t} />
+            </div>
         </div>
     )
 }
