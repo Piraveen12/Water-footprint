@@ -105,16 +105,55 @@ function MainApplication({ user, onLogout }) {
         }
 
         try {
-            await axios.post('/api/history', {
+            const response = await axios.post('/api/history', {
                 user_id: user.sub,
                 item: newItem
             });
-            // Re-fetch or manually update state
-            const itemWithDate = { ...newItem, timestamp: new Date().toISOString() }
-            setHistory(prev => [...prev, itemWithDate]);
+
+            if (response.data.record) {
+                setHistory(prev => [...prev, response.data.record]);
+            } else {
+                // Fallback
+                const itemWithDate = { ...newItem, timestamp: new Date().toISOString() }
+                setHistory(prev => [...prev, itemWithDate]);
+            }
         } catch (error) {
             console.error("Failed to save to history:", error);
             toast.error("Failed to save to cloud history");
+        }
+    }
+
+    const removeFromHistory = async (itemToRemove) => {
+        // Optimistic update
+        const oldHistory = [...history];
+        const newHistory = history.filter(item => {
+            // If we have IDs, use them
+            if (item._id && itemToRemove._id) {
+                return item._id !== itemToRemove._id;
+            }
+            // Fallback to timestamp + name
+            return item.timestamp !== itemToRemove.timestamp || item.item_name !== itemToRemove.item_name;
+        });
+
+        setHistory(newHistory);
+
+        if (!user || !user.sub) {
+            localStorage.setItem('waterFootprintHistory', JSON.stringify(newHistory));
+            toast.success("Item deleted");
+            return;
+        }
+
+        if (itemToRemove._id) {
+            try {
+                await axios.delete('/api/history', {
+                    params: { user_id: user.sub, item_id: itemToRemove._id }
+                });
+                toast.success("Item deleted");
+            } catch (error) {
+                console.error("Failed to delete:", error);
+                toast.error("Failed to delete from cloud");
+                setHistory(oldHistory); // Revert
+            }
         }
     }
 
@@ -365,7 +404,7 @@ function MainApplication({ user, onLogout }) {
                             exit={{ opacity: 0, x: 20 }}
                             transition={{ duration: 0.3 }}
                         >
-                            <TrackerDashboard history={history} onStart={() => setActiveTab('scan')} t={t} />
+                            <TrackerDashboard history={history} onStart={() => setActiveTab('scan')} onDelete={removeFromHistory} t={t} />
                         </motion.div>
                     )}
 

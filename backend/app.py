@@ -174,6 +174,8 @@ def get_water_footprint_analysis(input_data, is_image=False):
 
 # --- Endpoints ---
 
+from bson import ObjectId
+
 @app.route('/api/history', methods=['GET'])
 def get_history():
     user_id = request.args.get('user_id')
@@ -184,8 +186,11 @@ def get_history():
         return jsonify({"error": "Database not connected"}), 500
 
     try:
-        # Fetch history from Mongo, excluding _id
-        history = list(history_collection.find({"user_id": user_id}, {"_id": 0}))
+        # Fetch history from Mongo, including _id
+        history = list(history_collection.find({"user_id": user_id}))
+        # Convert ObjectId to string for JSON serialization
+        for item in history:
+            item['_id'] = str(item['_id'])
         return jsonify(history)
     except Exception as e:
         print(f"Database Error: {e}")
@@ -211,11 +216,36 @@ def add_history():
             **item 
         }
         
-        history_collection.insert_one(record)
-        return jsonify({"status": "success", "message": "Saved to history"})
+        result = history_collection.insert_one(record)
+        
+        # Return the inserted record with the new ID
+        record['_id'] = str(result.inserted_id)
+        
+        return jsonify({"status": "success", "message": "Saved to history", "record": record})
     except Exception as e:
         print(f"Database Error: {e}")
         return jsonify({"error": "Failed to save history"}), 500
+
+@app.route('/api/history', methods=['DELETE'])
+def delete_history():
+    user_id = request.args.get('user_id')
+    item_id = request.args.get('item_id')
+
+    if not user_id or not item_id:
+        return jsonify({"error": "User ID and Item ID required"}), 400
+
+    if history_collection is None:
+        return jsonify({"error": "Database not connected"}), 500
+
+    try:
+        result = history_collection.delete_one({"_id": ObjectId(item_id), "user_id": user_id})
+        if result.deleted_count > 0:
+            return jsonify({"status": "success", "message": "Item deleted"})
+        else:
+            return jsonify({"error": "Item not found"}), 404
+    except Exception as e:
+        print(f"Database Error: {e}")
+        return jsonify({"error": "Failed to delete item"}), 500
 
 @app.route('/api/footprint', methods=['POST'])
 def footprint():

@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
-import { TrendingUp, AlertTriangle, Lightbulb, History, Loader2, ChevronLeft, ChevronRight, ChevronDown } from 'lucide-react';
+import { TrendingUp, AlertTriangle, Lightbulb, History, Loader2, ChevronLeft, ChevronRight, ChevronDown, Trash2 } from 'lucide-react';
 import axios from 'axios';
 import { motion } from 'framer-motion';
 
-const TrackerDashboard = ({ history, onStart, t }) => {
+const TrackerDashboard = ({ history, onStart, onDelete, t }) => {
     const [insights, setInsights] = useState(null);
     const [loading, setLoading] = useState(false);
     const [viewDate, setViewDate] = useState(new Date()); // Controls the currently viewed month
@@ -334,7 +334,34 @@ const TrackerDashboard = ({ history, onStart, t }) => {
                                                                 )}
                                                             </div>
                                                         </div>
-                                                        <span style={{ color: '#22d3ee', fontWeight: 'bold', fontSize: '1rem' }}>{item.water_footprint_liters} L</span>
+                                                        <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+                                                            <span style={{ color: '#22d3ee', fontWeight: 'bold', fontSize: '1rem' }}>{item.water_footprint_liters} L</span>
+                                                            {onDelete && (
+                                                                <button
+                                                                    onClick={(e) => {
+                                                                        e.stopPropagation();
+                                                                        if (window.confirm(t.confirmDelete || "Delete this item?")) {
+                                                                            onDelete(item);
+                                                                        }
+                                                                    }}
+                                                                    style={{
+                                                                        background: 'rgba(239, 68, 68, 0.1)',
+                                                                        border: 'none',
+                                                                        color: '#ef4444',
+                                                                        cursor: 'pointer',
+                                                                        padding: '0.4rem',
+                                                                        borderRadius: '8px',
+                                                                        display: 'flex',
+                                                                        alignItems: 'center',
+                                                                        justifyContent: 'center',
+                                                                        transition: 'all 0.2s'
+                                                                    }}
+                                                                    title="Delete"
+                                                                >
+                                                                    <Trash2 size={16} />
+                                                                </button>
+                                                            )}
+                                                        </div>
                                                     </div>
                                                 ))}
                                             </div>
