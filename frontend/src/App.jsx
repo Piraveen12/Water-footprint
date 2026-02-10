@@ -33,7 +33,7 @@ function App() {
   return (
     <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>
       <Router>
-        <div className="app-container">
+        <div className="app-root">
           <Toaster position="bottom-center" toastOptions={{
             style: {
               background: '#1e293b',
