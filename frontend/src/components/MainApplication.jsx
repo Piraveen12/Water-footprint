@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
 import axios from 'axios'
 import { Toaster, toast } from 'react-hot-toast'
 import Scanner from './Scanner'
@@ -217,32 +218,15 @@ function MainApplication({ user, onLogout }) {
             {user && (
                 <div className="profile-button-container">
                     <button
+                        className={`profile-btn ${showLogout ? 'active' : ''}`}
                         onClick={() => setShowLogout(!showLogout)}
-                        style={{
-                            background: 'rgba(255,255,255,0.1)',
-                            border: '1px solid rgba(255,255,255,0.1)',
-                            color: 'white',
-                            padding: '0.5rem',
-                            borderRadius: '50%',
-                            cursor: 'pointer',
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            width: '40px',
-                            height: '40px'
-                        }}
                         title={user.name}
                     >
                         {user.picture ? (
                             <img
                                 src={user.picture}
                                 alt="Profile"
-                                style={{
-                                    width: '100%',
-                                    height: '100%',
-                                    borderRadius: '50%',
-                                    objectFit: 'cover'
-                                }}
+                                className="profile-img"
                             />
                         ) : (
                             <User size={20} />
@@ -252,25 +236,8 @@ function MainApplication({ user, onLogout }) {
                     {showLogout && (
                         <button
                             id="logout-btn"
+                            className="logout-dropdown-btn"
                             onClick={onLogout}
-                            style={{
-                                position: 'absolute',
-                                top: '110%',
-                                right: 0,
-                                background: 'rgba(30, 30, 30, 0.9)',
-                                border: '1px solid rgba(255,255,255,0.1)',
-                                color: 'white',
-                                padding: '0.5rem 1rem',
-                                borderRadius: '8px',
-                                cursor: 'pointer',
-                                display: 'flex',
-                                alignItems: 'center',
-                                gap: '0.5rem',
-                                fontSize: '0.9rem',
-                                whiteSpace: 'nowrap',
-                                boxShadow: '0 4px 12px rgba(0,0,0,0.5)',
-                                backdropFilter: 'blur(10px)'
-                            }}
                         >
                             <LogOut size={16} />
                             <span>{t.logout || "Logout"}</span>
@@ -353,46 +320,74 @@ function MainApplication({ user, onLogout }) {
                 </button>
             </div>
 
-            {activeTab === 'scan' ? (
-                <>
-                    <div className="search-container">
-                        <input
-                            id="search-input"
-                            type="text"
-                            className="search-box"
-                            placeholder={t.searchPlaceholder}
-                            value={textInput}
-                            onChange={(e) => setTextInput(e.target.value)}
-                            onKeyDown={handleKeySearch}
-                        />
-                        <Search
-                            className="search-icon"
-                            onClick={() => executeSearch()}
-                            style={{ cursor: 'pointer' }}
-                        />
-                    </div>
-
-                    <Scanner onScan={handleScan} t={t} />
-
-                    {/* Show Daily Life Gallery only when no result is active */}
-                    {!result && !loading && (
-                        <DailyLifeGallery onSelect={executeSearch} t={t} />
-                    )}
-
-                    {loading && (
-                        <div id="loading-indicator" style={{ margin: '2rem' }}>
-                            <Loader2 className="spin" size={32} />
-                            <p>{t.analyzing}</p>
+            <AnimatePresence mode="wait">
+                {activeTab === 'scan' && (
+                    <motion.div
+                        key="scan"
+                        initial={{ opacity: 0, x: -20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        exit={{ opacity: 0, x: 20 }}
+                        transition={{ duration: 0.3 }}
+                    >
+                        <div className="search-container">
+                            <input
+                                id="search-input"
+                                type="text"
+                                className="search-box"
+                                placeholder={t.searchPlaceholder}
+                                value={textInput}
+                                onChange={(e) => setTextInput(e.target.value)}
+                                onKeyDown={handleKeySearch}
+                            />
+                            <Search
+                                className="search-icon"
+                                onClick={() => executeSearch()}
+                                style={{ cursor: 'pointer' }}
+                            />
                         </div>
-                    )}
 
-                    <WaterFootprintCard data={result} language={language} image={scannedImage} t={t} />
-                </>
-            ) : activeTab === 'tracker' ? (
-                <TrackerDashboard history={history} onStart={() => setActiveTab('scan')} t={t} />
-            ) : (
-                <WaterCalculatorWizard onComplete={handleWizardComplete} t={t} />
-            )}
+                        <Scanner onScan={handleScan} t={t} />
+
+                        {/* Show Daily Life Gallery only when no result is active */}
+                        {!result && !loading && (
+                            <DailyLifeGallery onSelect={executeSearch} t={t} />
+                        )}
+
+                        {loading && (
+                            <div id="loading-indicator" style={{ margin: '2rem' }}>
+                                <Loader2 className="spin" size={32} />
+                                <p>{t.analyzing}</p>
+                            </div>
+                        )}
+
+                        <WaterFootprintCard data={result} language={language} image={scannedImage} t={t} />
+                    </motion.div>
+                )}
+
+                {activeTab === 'tracker' && (
+                    <motion.div
+                        key="tracker"
+                        initial={{ opacity: 0, x: -20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        exit={{ opacity: 0, x: 20 }}
+                        transition={{ duration: 0.3 }}
+                    >
+                        <TrackerDashboard history={history} onStart={() => setActiveTab('scan')} t={t} />
+                    </motion.div>
+                )}
+
+                {activeTab === 'calculator' && (
+                    <motion.div
+                        key="calculator"
+                        initial={{ opacity: 0, x: -20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        exit={{ opacity: 0, x: 20 }}
+                        transition={{ duration: 0.3 }}
+                    >
+                        <WaterCalculatorWizard onComplete={handleWizardComplete} t={t} />
+                    </motion.div>
+                )}
+            </AnimatePresence>
 
             <ChatBot t={t} language={language} />
 
