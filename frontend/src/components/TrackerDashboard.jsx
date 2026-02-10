@@ -211,7 +211,17 @@ const TrackerDashboard = ({ history, onStart, t }) => {
                                 formatter={(value) => [`${value} L`, 'Water Footprint']}
                                 labelFormatter={(label) => `${viewDate.toLocaleDateString(undefined, { month: 'long' })} ${label}`}
                             />
-                            <Bar dataKey="value" fill="#00bcd4" radius={[4, 4, 0, 0]} />
+                            <Bar
+                                dataKey="value"
+                                fill="#00bcd4"
+                                radius={[4, 4, 0, 0]}
+                                onClick={(data) => {
+                                    if (data && data.fullDate) {
+                                        toggleDate(data.fullDate);
+                                    }
+                                }}
+                                style={{ cursor: 'pointer' }}
+                            />
                         </BarChart>
                     </ResponsiveContainer>
                 </div>
@@ -276,6 +286,7 @@ const TrackerDashboard = ({ history, onStart, t }) => {
                             return (
                                 <div
                                     key={dateKey}
+                                    id={`history-${dateKey}`}
                                     className="history-item"
                                 >
                                     <div

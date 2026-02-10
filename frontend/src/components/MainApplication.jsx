@@ -234,14 +234,27 @@ function MainApplication({ user, onLogout }) {
                     </button>
 
                     {showLogout && (
-                        <button
-                            id="logout-btn"
-                            className="logout-dropdown-btn"
-                            onClick={onLogout}
-                        >
-                            <LogOut size={16} />
-                            <span>{t.logout || "Logout"}</span>
-                        </button>
+                        <div className="profile-dropdown">
+                            <button
+                                className="dropdown-item"
+                                onClick={() => {
+                                    setActiveTab('tracker');
+                                    setShowLogout(false);
+                                }}
+                            >
+                                <LayoutDashboard size={16} />
+                                <span>{t.trackerTab || "My Tracker"}</span>
+                            </button>
+                            <div className="dropdown-divider"></div>
+                            <button
+                                id="logout-btn"
+                                className="dropdown-item danger"
+                                onClick={onLogout}
+                            >
+                                <LogOut size={16} />
+                                <span>{t.logout || "Logout"}</span>
+                            </button>
+                        </div>
                     )}
                 </div>
             )}

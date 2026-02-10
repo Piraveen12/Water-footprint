@@ -934,34 +934,59 @@ button {
   object-fit: cover;
 }
 
-.logout-dropdown-btn {
+.profile-dropdown {
   position: absolute;
   top: 110%;
   right: 0;
   background: rgba(30, 30, 30, 0.95);
   border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 5px;
+  min-width: 150px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(10px);
+  animation: fadeIn 0.2s ease-out;
+  z-index: 1000;
+  width: auto !important;
+  /* Override media query constraint */
+  height: auto !important;
+  /* Override media query constraint */
+}
+
+.dropdown-item {
+  background: transparent;
+  border: none;
   color: white;
   padding: 0.6rem 1rem;
-  border-radius: 12px;
+  border-radius: 8px;
   cursor: pointer;
   display: flex;
   align-items: center;
   gap: 0.5rem;
   font-size: 0.9rem;
+  width: 100%;
+  text-align: left;
   white-space: nowrap;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
-  backdrop-filter: blur(10px);
-  width: auto !important;
-  /* Override media query constraint */
-  height: auto !important;
-  /* Override media query constraint */
-  animation: fadeIn 0.2s ease-out;
+  transition: all 0.2s;
+  font-family: inherit;
 }
 
-.logout-dropdown-btn:hover {
-  background: rgba(255, 68, 68, 0.2);
-  border-color: #ef4444;
+.dropdown-item:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.dropdown-item.danger:hover {
+  background: rgba(239, 68, 68, 0.2);
   color: #ef4444;
+}
+
+.dropdown-divider {
+  height: 1px;
+  background: rgba(255, 255, 255, 0.1);
+  margin: 2px 5px;
 }
 
 @keyframes fadeIn {
