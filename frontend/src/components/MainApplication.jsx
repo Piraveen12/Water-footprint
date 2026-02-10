@@ -199,138 +199,117 @@ function MainApplication({ user, onLogout }) {
     }
 
     return (
-        <>
-            <select
-                id="language-selector"
-                className="language-selector"
-                value={language}
-                onChange={(e) => setLanguage(e.target.value)}
-            >
-                <option value="english">English</option>
-                <option value="hindi">Hindi</option>
-                <option value="tamil">Tamil</option>
-                <option value="telugu">Telugu</option>
-                <option value="malayalam">Malayalam</option>
-                <option value="kannada">Kannada</option>
-            </select>
 
-            {/* Profile & Logout Button */}
-            {user && (
-                <div className="profile-button-container">
+        <div className="app-wrapper">
+            {/* Top Navigation Bar */}
+            <header className="main-header">
+                <div className="header-left">
+                    <div className="logo-section" onClick={() => setActiveTab('scan')}>
+                        <Droplets size={24} className="text-primary" />
+                        <span className="logo-text">WaterPrint</span>
+                    </div>
+                </div>
+
+                <nav className="header-tabs">
                     <button
-                        className={`profile-btn ${showLogout ? 'active' : ''}`}
-                        onClick={() => setShowLogout(!showLogout)}
-                        title={user.name}
+                        className={`nav-item ${activeTab === 'scan' ? 'active' : ''}`}
+                        onClick={() => setActiveTab('scan')}
                     >
-                        {user.picture ? (
-                            <img
-                                src={user.picture}
-                                alt="Profile"
-                                className="profile-img"
-                            />
-                        ) : (
-                            <User size={20} />
-                        )}
+                        <Scan size={18} />
+                        <span>{t.scanTab}</span>
+                    </button>
+                    <button
+                        className={`nav-item ${activeTab === 'tracker' ? 'active' : ''}`}
+                        onClick={() => setActiveTab('tracker')}
+                    >
+                        <LayoutDashboard size={18} />
+                        <span>{t.trackerTab}</span>
+                    </button>
+                    <button
+                        className={`nav-item ${activeTab === 'calculator' ? 'active' : ''}`}
+                        onClick={() => setActiveTab('calculator')}
+                    >
+                        <Calculator size={18} />
+                        <span>{t.calculatorTab}</span>
+                    </button>
+                </nav>
+
+                <div className="header-right">
+                    <select
+                        className="header-lang-select"
+                        value={language}
+                        onChange={(e) => setLanguage(e.target.value)}
+                    >
+                        <option value="english">Eng</option>
+                        <option value="hindi">Hin</option>
+                        <option value="tamil">Tam</option>
+                        <option value="telugu">Tel</option>
+                        <option value="malayalam">Mal</option>
+                        <option value="kannada">Kan</option>
+                    </select>
+
+                    <button
+                        className="header-icon-btn"
+                        onClick={() => setShowHelp(true)}
+                        title="Help"
+                    >
+                        <HelpCircle size={20} />
                     </button>
 
-                    {showLogout && (
-                        <div className="profile-dropdown">
+                    <button
+                        className="header-icon-btn"
+                        onClick={() => setShowAbout(true)}
+                        title="About"
+                    >
+                        <Info size={20} />
+                    </button>
+
+                    {user && (
+                        <div className="header-profile">
                             <button
-                                className="dropdown-item"
-                                onClick={() => {
-                                    setActiveTab('tracker');
-                                    setShowLogout(false);
-                                }}
+                                className={`profile-btn ${showLogout ? 'active' : ''}`}
+                                onClick={() => setShowLogout(!showLogout)}
+                                title={user.name}
                             >
-                                <LayoutDashboard size={16} />
-                                <span>{t.trackerTab || "My Tracker"}</span>
+                                {user.picture ? (
+                                    <img
+                                        src={user.picture}
+                                        alt="Profile"
+                                        className="profile-img"
+                                    />
+                                ) : (
+                                    <User size={20} />
+                                )}
                             </button>
-                            <div className="dropdown-divider"></div>
-                            <button
-                                id="logout-btn"
-                                className="dropdown-item danger"
-                                onClick={onLogout}
-                            >
-                                <LogOut size={16} />
-                                <span>{t.logout || "Logout"}</span>
-                            </button>
+
+                            {showLogout && (
+                                <div className="profile-dropdown">
+                                    <div className="user-info-mini">
+                                        <span className="user-name">{user.name}</span>
+                                        <span className="user-email">{user.email}</span>
+                                    </div>
+                                    <div className="dropdown-divider"></div>
+                                    <button
+                                        id="logout-btn"
+                                        className="dropdown-item danger"
+                                        onClick={onLogout}
+                                    >
+                                        <LogOut size={16} />
+                                        <span>{t.logout || "Logout"}</span>
+                                    </button>
+                                </div>
+                            )}
                         </div>
                     )}
                 </div>
-            )}
+            </header>
 
-            <button
-                id="help-btn"
-                className="help-btn"
-                onClick={() => setShowHelp(true)}
-                style={{
-                    position: 'absolute',
-                    top: '1.5rem',
-                    left: '1.5rem',
-                    background: 'rgba(255,255,255,0.1)',
-                    border: '1px solid rgba(255,255,255,0.1)',
-                    color: 'white',
-                    padding: '0.5rem',
-                    borderRadius: '50%',
-                    cursor: 'pointer'
-                }}
-            >
-                <HelpCircle size={20} />
-            </button>
-
-            <button
-                id="info-btn"
-                className="info-btn"
-                onClick={() => setShowAbout(true)}
-                style={{
-                    position: 'absolute',
-                    top: '1.5rem',
-                    left: '4.5rem',
-                    background: 'rgba(255,255,255,0.1)',
-                    border: '1px solid rgba(255,255,255,0.1)',
-                    color: 'white',
-                    padding: '0.5rem',
-                    borderRadius: '50%',
-                    cursor: 'pointer'
-                }}
-            >
-                <Info size={20} />
-            </button>
-
-            <div className="hero">
-                <Droplets size={64} style={{ color: 'var(--primary)', marginBottom: '1rem' }} />
-                <h1>{t.appTitle}</h1>
-                <p className="subtitle">{t.subtitle}</p>
-
+            <div className="mobile-subheader">
                 {user && (
-                    <p id="user-greeting" style={{ marginTop: '-2rem', marginBottom: '2rem', color: 'var(--primary)' }}>
-                        {t.welcomeBack || "Welcome back"}, {user.given_name || user.name}!
+                    <p className="welcome-text">
+                        {t.welcomeBack || "Welcome back"}, <span className="text-primary">{user.given_name || user.name}</span>!
                     </p>
                 )}
-            </div>
-
-            <div className="tab-nav" style={{ display: 'flex', justifyContent: 'center', gap: '1rem', marginBottom: '2rem' }}>
-                <button
-                    id="scan-tab-btn"
-                    className={`tab-btn ${activeTab === 'scan' ? 'active' : ''}`}
-                    onClick={() => setActiveTab('scan')}
-                >
-                    <Scan size={18} /> {t.scanTab}
-                </button>
-                <button
-                    id="tracker-tab-btn"
-                    className={`tab-btn ${activeTab === 'tracker' ? 'active' : ''}`}
-                    onClick={() => setActiveTab('tracker')}
-                >
-                    <LayoutDashboard size={18} /> {t.trackerTab}
-                </button>
-                <button
-                    id="calculator-tab-btn"
-                    className={`tab-btn ${activeTab === 'calculator' ? 'active' : ''}`}
-                    onClick={() => setActiveTab('calculator')}
-                >
-                    <Calculator size={18} /> {t.calculatorTab}
-                </button>
             </div>
 
             <AnimatePresence mode="wait">
@@ -406,7 +385,7 @@ function MainApplication({ user, onLogout }) {
 
             <HowToUse isOpen={showHelp} onClose={() => setShowHelp(false)} t={t} />
             <AboutProject isOpen={showAbout} onClose={() => setShowAbout(false)} t={t} />
-        </>
+        </div>
     )
 }
 
