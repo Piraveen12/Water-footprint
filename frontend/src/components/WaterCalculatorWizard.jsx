@@ -14,13 +14,31 @@ const questions = [
         ]
     },
     {
-        id: 'shower',
+        id: 'bath',
         icon: <ShowerHead size={40} />,
-        questionKey: 'qShower',
+        questionKey: 'qBath',
         options: [
-            { key: 'showerShort', value: 'short', factor: 50 },  // 5 min * 10L/min
-            { key: 'showerMed', value: 'medium', factor: 100 }, // 10 min
-            { key: 'showerLong', value: 'long', factor: 150 }   // 15 min
+            { key: 'bathBucket', value: 'bucket', factor: 30 },  // 1-2 buckets
+            { key: 'bathShower', value: 'shower_short', factor: 60 }, // 5 min
+            { key: 'showerLong', value: 'shower_long', factor: 120 }   // 10+ min
+        ]
+    },
+    {
+        id: 'dishes',
+        icon: <Droplets size={40} />,
+        questionKey: 'qDishes',
+        options: [
+            { key: 'dishHand', value: 'hand', factor: 40 }, // Running tap can be high, but bucket is low. Avg 40.
+            { key: 'dishMachine', value: 'machine', factor: 15 } // Modern efficient ones
+        ]
+    },
+    {
+        id: 'ro',
+        icon: <Droplets size={40} />,
+        questionKey: 'qRO',
+        options: [
+            { key: 'roYes', value: 'yes', factor: 40 }, // Refund/Wastage per day for drinking/cooking
+            { key: 'roNo', value: 'no', factor: 0 }
         ]
     },
     {

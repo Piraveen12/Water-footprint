@@ -108,6 +108,17 @@ export const translations = {
         next: "Next",
         back: "Back",
         finish: "Calculate",
+        // New Indian Context Questions
+        qBath: "Bathing method?",
+        bathBucket: "Bucket Bath",
+        bathShower: "Shower",
+        qDishes: "Dishwashing method?",
+        dishHand: "Hand Wash",
+        dishMachine: "Dishwasher",
+        qRO: "Do you use an RO purifier?",
+        roYes: "Yes",
+        roNo: "No",
+
         // Quick Actions
         quickActions: "Quick Actions",
         scanDesc: "Use camera or search",
@@ -222,7 +233,16 @@ export const translations = {
         qDrive: "தினசரி பயணம்?",
         next: "அடுத்து",
         back: "பின்னால்",
-        finish: "கணக்கிடு"
+        finish: "கணக்கிடு",
+        qBath: "குளியல் முறை?",
+        bathBucket: "வாளி குளியல்",
+        bathShower: "ಶವರ್", // Wait, this is tamil section. "ஷவர்"
+        qDishes: "பாத்திரம் கழுவுதல்?",
+        dishHand: "கையால்",
+        dishMachine: "இயந்திரம்",
+        qRO: "RO  பயன்படுத்துகிறீர்களா?",
+        roYes: "ஆம்",
+        roNo: "இல்லை"
     },
     hindi: {
         appTitle: "जल पदचिह्न (Water Footprint)",
@@ -317,7 +337,16 @@ export const translations = {
         qDrive: "दैनिक ड्राइविंग?",
         next: "अगला",
         back: "वापस",
-        finish: "गणना करें"
+        finish: "गणना करें",
+        qBath: "स्नान विधि?",
+        bathBucket: "बाल्टी स्नान",
+        bathShower: "शॉवर",
+        qDishes: "बर्तन धोना?",
+        dishHand: "हाथ से",
+        dishMachine: "डिशवॉशर",
+        qRO: "क्या आप RO का उपयोग करते हैं?",
+        roYes: "हाँ",
+        roNo: "नहीं"
     },
     telugu: {
         appTitle: "నీటి పాదముద్ర (Water Footprint)",
@@ -424,7 +453,16 @@ export const translations = {
         qDrive: "రోజువారీ ప్రయాణం?",
         next: "తరువాత",
         back: "వెనుకకు",
-        finish: "లెక్కించు"
+        finish: "లెక్కించు",
+        qBath: "స్నాన పద్ధతి?",
+        bathBucket: "బకెట్ స్నానం",
+        bathShower: "షవర్",
+        qDishes: "వంట పాత్రలు కడగడం?",
+        dishHand: "చేతితో",
+        dishMachine: "డిష్‌వాషర్",
+        qRO: "మీరు RO ఉపయోగిస్తున్నారా?",
+        roYes: "అవును",
+        roNo: "కాదు"
     },
     malayalam: {
         appTitle: "ജല കാൽപ്പാടുകൾ (Water Footprint)",
@@ -531,7 +569,16 @@ export const translations = {
         qDrive: "യാത്ര?",
         next: "അടുത്തത്",
         back: "തിരികെ",
-        finish: "കണക്കാക്കുക"
+        finish: "കണക്കാക്കുക",
+        qBath: "കുളിക്കുന്ന രീതി?",
+        bathBucket: "ബക്കറ്റ് കുളി",
+        bathShower: "ഷവർ",
+        qDishes: "പാത്രം കഴുകൽ?",
+        dishHand: "കൈകൊണ്ട്",
+        dishMachine: "ഡിഷ്വാഷർ",
+        qRO: "നിങ്ങൾ RO ഉപയോഗിക്കുന്നുണ്ടോ?",
+        roYes: "ഉണ്ട്",
+        roNo: "ഇല്ല"
     },
     kannada: {
         appTitle: "ನೀರಿನ ಹೆಜ್ಜೆಗುರುತು (Water Footprint)",
@@ -638,6 +685,15 @@ export const translations = {
         qDrive: "ದೈನಂದಿನ ಪ್ರಯಾಣ?",
         next: "ಮುಂದೆ",
         back: "ಹಿಂದೆ",
-        finish: "ಲೆಕ್ಕಹಾಕಿ"
-    }
+        finish: "ಲೆಕ್ಕಹಾಕಿ",
+        qBath: "ಸ್ನಾನದ ವಿಧಾನ?",
+        bathBucket: "ಬಕೆಟ್ ಸ್ನಾನ",
+        bathShower: "ಶವರ್",
+        qDishes: "ಪಾತ್ರೆ ತೊಳೆಯುವುದು?",
+        dishHand: "ಕೈಯಿಂದ",
+        dishMachine: "ಡಿಶ್‌ವಾಶರ್",
+        qRO: "ನೀವು RO ಬಳಸುತ್ತೀರಾ?",
+        roYes: "ಹೌದು",
+        roNo: "ಇಲ್ಲ"
+    },
 };
