@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { Droplets, ShieldCheck } from 'lucide-react';
 import { jwtDecode } from "jwt-decode";
 import toast from 'react-hot-toast';
+import { motion } from 'framer-motion';
 import { translations } from '../translations';
 
 const Login = ({ onSuccess }) => {
@@ -35,89 +36,60 @@ const Login = ({ onSuccess }) => {
     };
 
     return (
-        <div id="login-page" className="login-container" style={{
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            justifyContent: 'center',
-            minHeight: '100vh',
-            padding: '2rem',
-            position: 'relative'
-        }}>
+        <div className="login-page">
             {/* Language Selector */}
-            <select
-                id="login-language-selector"
-                className="language-selector"
-                value={language}
-                onChange={(e) => setLanguage(e.target.value)}
-                style={{
-                    position: 'absolute',
-                    top: '2rem',
-                    right: '2rem'
-                }}
-            >
-                <option value="english">English</option>
-                <option value="hindi">Hindi</option>
-                <option value="tamil">Tamil</option>
-                <option value="telugu">Telugu</option>
-                <option value="malayalam">Malayalam</option>
-                <option value="kannada">Kannada</option>
-            </select>
+            <div className="language-wrapper">
+                <select
+                    id="login-language-selector"
+                    className="language-selector"
+                    value={language}
+                    onChange={(e) => setLanguage(e.target.value)}
+                >
+                    <option value="english">English</option>
+                    <option value="hindi">Hindi</option>
+                    <option value="tamil">Tamil</option>
+                    <option value="telugu">Telugu</option>
+                    <option value="malayalam">Malayalam</option>
+                    <option value="kannada">Kannada</option>
+                </select>
+            </div>
 
-            <div className="login-card" style={{
-                background: 'var(--card-bg)',
-                backdropFilter: 'blur(12px)',
-                border: '1px solid var(--border)',
-                borderRadius: '24px',
-                padding: '3rem',
-                maxWidth: '450px',
-                width: '100%',
-                textAlign: 'center',
-                boxShadow: '0 20px 50px rgba(0,0,0,0.5)'
-            }}>
-                <div style={{ marginBottom: '2rem' }}>
-                    <div style={{
-                        background: 'rgba(34, 211, 238, 0.1)',
-                        width: '80px',
-                        height: '80px',
-                        borderRadius: '50%',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        margin: '0 auto 1.5rem',
-                        border: '1px solid rgba(34, 211, 238, 0.2)'
-                    }}>
-                        <Droplets size={40} style={{ color: 'var(--primary)' }} />
+            <motion.div
+                className="login-card"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, ease: "easeOut" }}
+            >
+                <div className="login-header">
+                    <div className="icon-wrapper">
+                        <Droplets size={40} className="primary-icon" />
                     </div>
-                    <h1 id="login-title">{t.appTitle}</h1>
-                    <p className="subtitle" style={{ marginBottom: '2rem' }}>
+                    <h1 id="login-title" className="main-title">{t.appTitle}</h1>
+                    <p className="subtitle">
                         {t.subtitle}
                     </p>
                 </div>
 
-                <div id="google-auth-section" className="auth-section" style={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    gap: '1rem',
-                    alignItems: 'center'
-                }}>
-                    <GoogleLogin
-                        onSuccess={handleGoogleSuccess}
-                        onError={handleGoogleError}
-                        theme="filled_black"
-                        shape="pill"
-                        size="large"
-                        width="300"
-                        text="signin_with"
-                        locale={language} // Attempt to localize the button itself if possible
-                    />
+                <div id="google-auth-section" className="auth-section">
+                    <div className="google-btn-wrapper">
+                        <GoogleLogin
+                            onSuccess={handleGoogleSuccess}
+                            onError={handleGoogleError}
+                            theme="filled_black"
+                            shape="pill"
+                            size="large"
+                            width="300"
+                            text="signin_with"
+                            locale={language}
+                        />
+                    </div>
 
-                    <div style={{ marginTop: '2rem', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem', color: 'var(--text-muted)', fontSize: '0.9rem' }}>
+                    <div className="secure-badge">
                         <ShieldCheck size={16} />
                         <span>{t.secureAuth || "Secure Authentication"}</span>
                     </div>
                 </div>
-            </div>
+            </motion.div>
         </div>
     );
 };

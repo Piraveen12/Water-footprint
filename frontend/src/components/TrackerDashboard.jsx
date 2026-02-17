@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import { TrendingUp, AlertTriangle, Lightbulb, History, Loader2, ChevronLeft, ChevronRight, ChevronDown, Trash2 } from 'lucide-react';
 import axios from 'axios';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const TrackerDashboard = ({ history, onStart, onDelete, t }) => {
     const [insights, setInsights] = useState(null);
@@ -81,8 +81,6 @@ const TrackerDashboard = ({ history, onStart, onDelete, t }) => {
             val = groupedHistory[key].reduce((sum, item) => sum + (item.water_footprint_liters || 0), 0);
         }
 
-        // Only push if it's not in the future (or include all days for a full month view)
-        // For aesthetics, let's include all days but only highlight up to today if current month
         chartData.push({
             name: i.toString(),
             value: val,
@@ -115,14 +113,11 @@ const TrackerDashboard = ({ history, onStart, onDelete, t }) => {
 
     if (history.length === 0) {
         return (
-            <div className="dashboard-container" style={{ textAlign: 'center', padding: '3rem' }}>
-                <History size={48} className="text-muted" style={{ marginBottom: '1rem', opacity: 0.5 }} />
+            <div className="dashboard-container text-center" style={{ padding: '3rem' }}>
+                <History size={48} className="text-muted mb-4 opacity-50" />
                 <h3>{t.noHistory}</h3>
-                <p className="subtitle" style={{ marginBottom: '2rem' }}>{t.startTrackingMsg}</p>
-                <button
-                    className="btn-primary"
-                    onClick={onStart}
-                >
+                <p className="subtitle mb-4">{t.startTrackingMsg}</p>
+                <button className="btn-primary" onClick={onStart}>
                     {t.startTrackingBtn}
                 </button>
             </div>
@@ -132,7 +127,12 @@ const TrackerDashboard = ({ history, onStart, onDelete, t }) => {
     return (
         <div className="dashboard-container">
             {/* Summary Card */}
-            <div className="dashboard-card">
+            <motion.div
+                className="dashboard-card"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.3 }}
+            >
                 <div className="card-header">
                     <h3><TrendingUp size={20} /> {t.trackerTitle}</h3>
                 </div>
@@ -144,9 +144,9 @@ const TrackerDashboard = ({ history, onStart, onDelete, t }) => {
                         <span className="meta">Across {history.length} {t.itemsCount}</span>
                     </div>
 
-                    <div className="info-block" style={{ textAlign: 'right' }}>
+                    <div className="info-block text-right">
                         <span className="sub-label">{t.sustainabilityScore || "Sustainability Score"}</span>
-                        <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'baseline', gap: '0.5rem' }}>
+                        <div className="flex-center" style={{ justifyContent: 'flex-end', gap: '0.5rem' }}>
                             <h2 style={{ color: getGradeColor(grade), margin: 0 }}>{grade}</h2>
                         </div>
                         <span className="meta">{getGradeText(grade, t)}</span>
@@ -154,27 +154,24 @@ const TrackerDashboard = ({ history, onStart, onDelete, t }) => {
                 </div>
 
                 {/* Badges Row */}
-                <div style={{ marginTop: '1.5rem', display: 'flex', gap: '0.5rem', flexWrap: 'wrap', paddingTop: '1rem', borderTop: '1px solid rgba(255,255,255,0.1)' }}>
+                <div className="badge-wrapper">
                     {badges.map((badge, index) => (
-                        <div key={index} title={badge.name} style={{
-                            background: 'rgba(255,255,255,0.05)',
-                            padding: '0.5rem 0.8rem',
-                            borderRadius: '12px',
-                            display: 'flex',
-                            alignItems: 'center',
-                            gap: '0.5rem',
-                            border: '1px solid rgba(255,255,255,0.1)'
-                        }}>
+                        <div key={index} title={badge.name} className="badge-item">
                             <span style={{ fontSize: '1.2rem' }}>{badge.icon}</span>
                             <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>{badge.name}</span>
                         </div>
                     ))}
                 </div>
-            </div>
+            </motion.div>
 
             {/* Monthly Chart */}
-            <div className="dashboard-card">
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
+            <motion.div
+                className="dashboard-card"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.3, delay: 0.1 }}
+            >
+                <div className="flex-between mb-4">
                     <div>
                         <h3 style={{ margin: 0, fontSize: '1.2rem' }}>{t.usageTrend || "Monthly Overview"}</h3>
                         <div style={{ fontSize: '0.9rem', color: 'var(--text-muted)', marginTop: '0.2rem' }}>
@@ -213,7 +210,7 @@ const TrackerDashboard = ({ history, onStart, onDelete, t }) => {
                             />
                             <Bar
                                 dataKey="value"
-                                fill="#00bcd4"
+                                fill="url(#colorTotal)"
                                 radius={[4, 4, 0, 0]}
                                 onClick={(data) => {
                                     if (data && data.fullDate) {
@@ -221,15 +218,28 @@ const TrackerDashboard = ({ history, onStart, onDelete, t }) => {
                                     }
                                 }}
                                 style={{ cursor: 'pointer' }}
-                            />
+                            >
+                                {/* Add a gradient def for the bars */}
+                                <defs>
+                                    <linearGradient id="colorTotal" x1="0" y1="0" x2="0" y2="1">
+                                        <stop offset="5%" stopColor="var(--primary)" stopOpacity={0.8} />
+                                        <stop offset="95%" stopColor="var(--primary)" stopOpacity={0.3} />
+                                    </linearGradient>
+                                </defs>
+                            </Bar>
                         </BarChart>
                     </ResponsiveContainer>
                 </div>
-            </div>
+            </motion.div>
 
             {/* AI Analysis */}
-            <div className="dashboard-card">
-                <div className="card-header" style={{ justifyContent: 'space-between' }}>
+            <motion.div
+                className="dashboard-card"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.3, delay: 0.2 }}
+            >
+                <div className="card-header flex-between">
                     <h3><Lightbulb size={20} /> {t.aiTitle}</h3>
                     <button
                         className="btn-primary"
@@ -241,135 +251,150 @@ const TrackerDashboard = ({ history, onStart, onDelete, t }) => {
                     </button>
                 </div>
 
-                {insights ? (
-                    <motion.div
-                        initial={{ opacity: 0, height: 0 }}
-                        animate={{ opacity: 1, height: 'auto' }}
-                        className="ai-insights"
-                        style={{ marginTop: '1rem' }}
-                    >
-                        <div className="info-box" style={{ marginBottom: '1rem' }}>
-                            <span className="label" style={{ color: '#facc15' }}><AlertTriangle size={14} style={{ display: 'inline', marginRight: '5px' }} /> {t.highConsumption}</span>
-                            <p>{insights.most_consuming.join(', ')}</p>
-                        </div>
+                <AnimatePresence>
+                    {insights ? (
+                        <motion.div
+                            initial={{ opacity: 0, height: 0 }}
+                            animate={{ opacity: 1, height: 'auto' }}
+                            exit={{ opacity: 0, height: 0 }}
+                            className="ai-insights mt-4"
+                        >
+                            <div className="info-box mb-4">
+                                <span className="label" style={{ color: '#facc15' }}><AlertTriangle size={14} style={{ display: 'inline', marginRight: '5px' }} /> {t.highConsumption}</span>
+                                <p>{insights.most_consuming.join(', ')}</p>
+                            </div>
 
-                        <div className="info-box" style={{ marginBottom: '1rem' }}>
-                            <span className="label">{t.usagePattern}</span>
-                            <p>{insights.usage_pattern}</p>
-                        </div>
+                            <div className="info-box mb-4">
+                                <span className="label">{t.usagePattern}</span>
+                                <p>{insights.usage_pattern}</p>
+                            </div>
 
-                        <ul className="rec-list">
-                            {insights.recommendations.map((rec, i) => (
-                                <li key={i} style={{ color: '#a5f3fc' }}>{rec}</li>
-                            ))}
-                        </ul>
-                    </motion.div>
-                ) : (
-                    !loading && (
-                        <p className="text-muted" style={{ fontSize: '0.9rem', fontStyle: 'italic', margin: 0 }}>
-                            {t.clickToAnalyze}
-                        </p>
-                    )
-                )}
-            </div>
+                            <ul className="rec-list">
+                                {insights.recommendations.map((rec, i) => (
+                                    <li key={i} style={{ color: '#a5f3fc' }}>{rec}</li>
+                                ))}
+                            </ul>
+                        </motion.div>
+                    ) : (
+                        !loading && (
+                            <p className="text-muted" style={{ fontSize: '0.9rem', fontStyle: 'italic', margin: 0 }}>
+                                {t.clickToAnalyze}
+                            </p>
+                        )
+                    )}
+                </AnimatePresence>
+            </motion.div>
 
             {/* Date-wise History List */}
-            <div className="dashboard-card">
+            <motion.div
+                className="dashboard-card"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.3, delay: 0.3 }}
+            >
                 <h3><History size={20} style={{ marginRight: '0.5rem' }} /> {t.history || "Daily History"}</h3>
 
-                <div className="history-list" style={{ display: 'flex', flexDirection: 'column', gap: '1rem', marginTop: '1rem' }}>
+                <div className="history-list mt-4">
                     {filteredHistory.length > 0 ? (
-                        sortedDates.map((dateKey) => {
-                            const dayTotal = groupedHistory[dateKey].reduce((sum, item) => sum + (item.water_footprint_liters || 0), 0);
-                            const isExpanded = expandedDate === dateKey;
+                        <AnimatePresence>
+                            {sortedDates.map((dateKey) => {
+                                const dayTotal = groupedHistory[dateKey].reduce((sum, item) => sum + (item.water_footprint_liters || 0), 0);
+                                const isExpanded = expandedDate === dateKey;
 
-                            return (
-                                <div
-                                    key={dateKey}
-                                    id={`history-${dateKey}`}
-                                    className="history-item"
-                                >
-                                    <div
-                                        onClick={() => toggleDate(dateKey)}
-                                        className={`history-header ${isExpanded ? 'expanded' : ''}`}
+                                return (
+                                    <motion.div
+                                        key={dateKey}
+                                        id={`history-${dateKey}`}
+                                        className="history-item"
+                                        initial={{ opacity: 0 }}
+                                        animate={{ opacity: 1 }}
+                                        layout
                                     >
-                                        <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-                                            <div className="date-badge">
-                                                <span className="day">{new Date(dateKey).getDate()}</span>
-                                                <span className="weekday">{new Date(dateKey).toLocaleDateString(undefined, { weekday: 'short' })}</span>
-                                            </div>
-                                            <div>
-                                                <h5 style={{ margin: 0, fontSize: '1rem', color: 'white' }}>
-                                                    {new Date(dateKey).toLocaleDateString(undefined, { month: 'long', day: 'numeric' })}
-                                                </h5>
-                                                <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>
-                                                    {groupedHistory[dateKey].length} items
-                                                </span>
-                                            </div>
-                                        </div>
-                                        <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-                                            <span style={{ color: 'var(--primary)', fontWeight: 'bold' }}>{dayTotal.toFixed(0)} L</span>
-                                            {isExpanded ? <ChevronDown size={18} color="#94a3b8" /> : <ChevronRight size={18} color="#94a3b8" />}
-                                        </div>
-                                    </div>
-
-                                    {isExpanded && (
-                                        <motion.div
-                                            initial={{ opacity: 0 }}
-                                            animate={{ opacity: 1 }}
-                                            transition={{ duration: 0.3 }}
-                                            className="history-content"
+                                        <div
+                                            onClick={() => toggleDate(dateKey)}
+                                            className={`history-header ${isExpanded ? 'expanded' : ''}`}
                                         >
-                                            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                                                {groupedHistory[dateKey].map((item, i) => (
-                                                    <div key={i} className="history-row">
-                                                        <div>
-                                                            <span style={{ fontWeight: '500', display: 'block', color: '#f1f5f9', fontSize: '0.95rem' }}>{item.item_name}</span>
-                                                            <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center', marginTop: '0.2rem' }}>
-                                                                <span style={{ fontSize: '0.75rem', color: '#64748b', background: 'rgba(255,255,255,0.05)', padding: '2px 6px', borderRadius: '4px' }}>
-                                                                    {new Date(item.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                                                                </span>
-                                                                {item.category && (
-                                                                    <span style={{ fontSize: '0.75rem', color: '#94a3b8' }}>• {item.category}</span>
-                                                                )}
-                                                            </div>
-                                                        </div>
-                                                        <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-                                                            <span style={{ color: '#22d3ee', fontWeight: 'bold', fontSize: '1rem' }}>{item.water_footprint_liters} L</span>
-                                                            {onDelete && (
-                                                                <button
-                                                                    onClick={(e) => {
-                                                                        e.stopPropagation();
-                                                                        if (window.confirm(t.confirmDelete || "Delete this item?")) {
-                                                                            onDelete(item);
-                                                                        }
-                                                                    }}
-                                                                    style={{
-                                                                        background: 'rgba(239, 68, 68, 0.1)',
-                                                                        border: 'none',
-                                                                        color: '#ef4444',
-                                                                        cursor: 'pointer',
-                                                                        padding: '0.4rem',
-                                                                        borderRadius: '8px',
-                                                                        display: 'flex',
-                                                                        alignItems: 'center',
-                                                                        justifyContent: 'center',
-                                                                        transition: 'all 0.2s'
-                                                                    }}
-                                                                    title="Delete"
-                                                                >
-                                                                    <Trash2 size={16} />
-                                                                </button>
-                                                            )}
-                                                        </div>
-                                                    </div>
-                                                ))}
+                                            <div className="flex-center gap-4">
+                                                <div className="date-badge">
+                                                    <span className="day">{new Date(dateKey).getDate()}</span>
+                                                    <span className="weekday">{new Date(dateKey).toLocaleDateString(undefined, { weekday: 'short' })}</span>
+                                                </div>
+                                                <div>
+                                                    <h5 style={{ margin: 0, fontSize: '1rem', color: 'white' }}>
+                                                        {new Date(dateKey).toLocaleDateString(undefined, { month: 'long', day: 'numeric' })}
+                                                    </h5>
+                                                    <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>
+                                                        {groupedHistory[dateKey].length} items
+                                                    </span>
+                                                </div>
                                             </div>
-                                        </motion.div>
-                                    )}
-                                </div>
-                            );
-                        })
+                                            <div className="flex-center gap-4">
+                                                <span style={{ color: 'var(--primary)', fontWeight: 'bold' }}>{dayTotal.toFixed(0)} L</span>
+                                                {isExpanded ? <ChevronDown size={18} color="#94a3b8" /> : <ChevronRight size={18} color="#94a3b8" />}
+                                            </div>
+                                        </div>
+
+                                        <AnimatePresence>
+                                            {isExpanded && (
+                                                <motion.div
+                                                    initial={{ opacity: 0, height: 0 }}
+                                                    animate={{ opacity: 1, height: 'auto' }}
+                                                    exit={{ opacity: 0, height: 0 }}
+                                                    transition={{ duration: 0.3 }}
+                                                    className="history-content"
+                                                >
+                                                    <div className="flex-col gap-2">
+                                                        {groupedHistory[dateKey].map((item, i) => (
+                                                            <div key={i} className="history-row">
+                                                                <div>
+                                                                    <span style={{ fontWeight: '500', display: 'block', color: '#f1f5f9', fontSize: '0.95rem' }}>{item.item_name}</span>
+                                                                    <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center', marginTop: '0.2rem' }}>
+                                                                        <span style={{ fontSize: '0.75rem', color: '#64748b', background: 'rgba(255,255,255,0.05)', padding: '2px 6px', borderRadius: '4px' }}>
+                                                                            {new Date(item.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                                                                        </span>
+                                                                        {item.category && (
+                                                                            <span style={{ fontSize: '0.75rem', color: '#94a3b8' }}>• {item.category}</span>
+                                                                        )}
+                                                                    </div>
+                                                                </div>
+                                                                <div className="flex-center gap-4">
+                                                                    <span style={{ color: '#22d3ee', fontWeight: 'bold', fontSize: '1rem' }}>{item.water_footprint_liters} L</span>
+                                                                    {onDelete && (
+                                                                        <button
+                                                                            onClick={(e) => {
+                                                                                e.stopPropagation();
+                                                                                if (window.confirm(t.confirmDelete || "Delete this item?")) {
+                                                                                    onDelete(item);
+                                                                                }
+                                                                            }}
+                                                                            style={{
+                                                                                background: 'rgba(239, 68, 68, 0.1)',
+                                                                                border: 'none',
+                                                                                color: '#ef4444',
+                                                                                cursor: 'pointer',
+                                                                                padding: '0.4rem',
+                                                                                borderRadius: '8px',
+                                                                                display: 'flex',
+                                                                                alignItems: 'center',
+                                                                                justifyContent: 'center',
+                                                                                transition: 'all 0.2s'
+                                                                            }}
+                                                                            title="Delete"
+                                                                        >
+                                                                            <Trash2 size={16} />
+                                                                        </button>
+                                                                    )}
+                                                                </div>
+                                                            </div>
+                                                        ))}
+                                                    </div>
+                                                </motion.div>
+                                            )}
+                                        </AnimatePresence>
+                                    </motion.div>
+                                );
+                            })}
+                        </AnimatePresence>
                     ) : (
                         <div style={{ textAlign: 'center', padding: '3rem', color: 'var(--text-muted)', background: 'rgba(255,255,255,0.02)', borderRadius: '16px', border: '1px dashed rgba(255,255,255,0.1)' }}>
                             <p style={{ margin: 0 }}>No records for this month</p>
@@ -391,7 +416,7 @@ const TrackerDashboard = ({ history, onStart, onDelete, t }) => {
                         </div>
                     )}
                 </div>
-            </div>
+            </motion.div>
         </div>
     );
 };
