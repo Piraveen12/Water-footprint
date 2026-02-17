@@ -1,8 +1,18 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Droplets, Car, Utensils, ShowerHead, Shirt, ArrowRight, ArrowLeft, Check, Award } from 'lucide-react';
+import { Droplets, Car, Utensils, ShowerHead, Shirt, ArrowRight, ArrowLeft, Check, Award, Users } from 'lucide-react';
 
 const questions = [
+    {
+        id: 'household',
+        icon: <Users size={40} />,
+        questionKey: 'qHousehold',
+        type: 'slider',
+        min: 1,
+        max: 15,
+        unitKey: 'members',
+        factorPerUnit: 0 // Used for division in other calculations
+    },
     {
         id: 'diet',
         icon: <Utensils size={40} />,
@@ -99,13 +109,25 @@ const WaterCalculatorWizard = ({ onComplete, t }) => {
         setTimeout(() => {
             // Calculate total
             let total = 0;
+            const householdSize = answers['household'] || 1;
+
             questions.forEach(q => {
                 const ans = answers[q.id];
+                if (q.id === 'household') return; // Skip adding household size to total
+
                 if (q.options) {
                     const opt = q.options.find(o => o.value === ans);
                     if (opt) total += opt.factor;
                 } else if (q.type === 'slider') {
-                    total += (ans || 0) * q.factorPerUnit;
+                    let addition = (ans || 0) * q.factorPerUnit;
+
+                    // Specific logic for shared resources
+                    if (q.id === 'laundry') {
+                        // Laundry is loads per week for the house, convert to daily per person
+                        addition = addition / householdSize;
+                    }
+
+                    total += addition;
                 }
             });
             setIsCalculating(false);
@@ -199,10 +221,10 @@ const WaterCalculatorWizard = ({ onComplete, t }) => {
                                     <div style={{ padding: '0 2rem' }}>
                                         <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'baseline', gap: '0.5rem', marginBottom: '1rem' }}>
                                             <span style={{ fontSize: '3rem', fontWeight: 'bold', color: '#06b6d4' }}>
-                                                {answers[currentQ.id] || 0}
+                                                {answers[currentQ.id] || currentQ.min || 0}
                                             </span>
                                             <span style={{ fontSize: '1.2rem', color: '#94a3b8' }}>
-                                                {currentQ.unit || (currentQ.id === 'laundry' ? 'loads/week' : '')}
+                                                {currentQ.unit || (currentQ.unitKey ? t[currentQ.unitKey] : '') || (currentQ.id === 'laundry' ? 'loads/week' : '')}
                                             </span>
                                         </div>
                                         <input
@@ -210,7 +232,7 @@ const WaterCalculatorWizard = ({ onComplete, t }) => {
                                             min={currentQ.min}
                                             max={currentQ.max}
                                             step={1}
-                                            value={answers[currentQ.id] || 0}
+                                            value={answers[currentQ.id] || currentQ.min || 0}
                                             onChange={(e) => handleSliderChange(currentQ.id, parseInt(e.target.value))}
                                             style={{ width: '100%', cursor: 'pointer', accentColor: '#06b6d4' }}
                                         />

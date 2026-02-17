@@ -118,6 +118,8 @@ export const translations = {
         qRO: "Do you use an RO purifier?",
         roYes: "Yes",
         roNo: "No",
+        qHousehold: "Household Size?",
+        members: "members",
 
         // Quick Actions
         quickActions: "Quick Actions",
@@ -242,7 +244,9 @@ export const translations = {
         dishMachine: "இயந்திரம்",
         qRO: "RO  பயன்படுத்துகிறீர்களா?",
         roYes: "ஆம்",
-        roNo: "இல்லை"
+        roNo: "இல்லை",
+        qHousehold: "வீட்டில் எத்தனை பேர்?",
+        members: "உறுப்பினர்கள்"
     },
     hindi: {
         appTitle: "जल पदचिह्न (Water Footprint)",
@@ -346,7 +350,9 @@ export const translations = {
         dishMachine: "डिशवॉशर",
         qRO: "क्या आप RO का उपयोग करते हैं?",
         roYes: "हाँ",
-        roNo: "नहीं"
+        roNo: "नहीं",
+        qHousehold: "घर में कितने लोग हैं?",
+        members: "सदस्य"
     },
     telugu: {
         appTitle: "నీటి పాదముద్ర (Water Footprint)",
@@ -462,7 +468,9 @@ export const translations = {
         dishMachine: "డిష్‌వాషర్",
         qRO: "మీరు RO ఉపయోగిస్తున్నారా?",
         roYes: "అవును",
-        roNo: "కాదు"
+        roNo: "కాదు",
+        qHousehold: "ఇంట్లో ఎంత మంది ఉన్నారు?",
+        members: "సభ్యులు"
     },
     malayalam: {
         appTitle: "ജല കാൽപ്പാടുകൾ (Water Footprint)",
@@ -578,7 +586,9 @@ export const translations = {
         dishMachine: "ഡിഷ്വാഷർ",
         qRO: "നിങ്ങൾ RO ഉപയോഗിക്കുന്നുണ്ടോ?",
         roYes: "ഉണ്ട്",
-        roNo: "ഇല്ല"
+        roNo: "ഇല്ല",
+        qHousehold: "വീട്ടിലെ അംഗങ്ങളുടെ എണ്ണം?",
+        members: "അംഗങ്ങൾ"
     },
     kannada: {
         appTitle: "ನೀರಿನ ಹೆಜ್ಜೆಗುರುತು (Water Footprint)",
@@ -694,6 +704,8 @@ export const translations = {
         dishMachine: "ಡಿಶ್‌ವಾಶರ್",
         qRO: "ನೀವು RO ಬಳಸುತ್ತೀರಾ?",
         roYes: "ಹೌದು",
-        roNo: "ಇಲ್ಲ"
+        roNo: "ಇಲ್ಲ",
+        qHousehold: "ಮನೆಯ ಸದಸ್ಯರ ಸಂಖ್ಯೆ?",
+        members: "ಸದಸ್ಯರು"
     },
 };
