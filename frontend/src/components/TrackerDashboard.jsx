@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
-import { TrendingUp, AlertTriangle, Lightbulb, History, Loader2, ChevronLeft, ChevronRight, ChevronDown, Trash2 } from 'lucide-react';
+import { TrendingUp, AlertTriangle, Lightbulb, History, Loader2, ChevronLeft, ChevronRight, ChevronDown, Trash2, Scan, Calculator, Plus } from 'lucide-react';
 import axios from 'axios';
 import { motion, AnimatePresence } from 'framer-motion';
 
-const TrackerDashboard = ({ history, onStart, onDelete, t }) => {
+const TrackerDashboard = ({ history, onStart, onCalculate, onDelete, t }) => {
     const [insights, setInsights] = useState(null);
     const [loading, setLoading] = useState(false);
     const [viewDate, setViewDate] = useState(new Date()); // Controls the currently viewed month
@@ -126,6 +126,42 @@ const TrackerDashboard = ({ history, onStart, onDelete, t }) => {
 
     return (
         <div className="dashboard-container">
+            {/* Quick Actions Card */}
+            <motion.div
+                className="dashboard-card quick-actions-card"
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.3 }}
+            >
+                <div className="card-header mb-4">
+                    <h3><Plus size={20} /> {t.quickActions || "New Entry"}</h3>
+                </div>
+
+                <div className="flex-between gap-4" style={{ flexWrap: 'wrap' }}>
+                    <button
+                        className="btn-secondary w-full action-btn btn-scan"
+                        onClick={onStart}
+                    >
+                        <Scan size={24} />
+                        <div className="flex-col" style={{ alignItems: 'flex-start', gap: '0.2rem' }}>
+                            <span style={{ fontSize: '1rem', fontWeight: 'bold' }}>{t.scanBtn || "Scan Item"}</span>
+                            <span style={{ fontSize: '0.75rem', opacity: 0.7 }}>{t.scanDesc || "Use camera or search"}</span>
+                        </div>
+                    </button>
+
+                    <button
+                        className="btn-secondary w-full action-btn btn-calc"
+                        onClick={onCalculate}
+                    >
+                        <Calculator size={24} />
+                        <div className="flex-col" style={{ alignItems: 'flex-start', gap: '0.2rem' }}>
+                            <span style={{ fontSize: '1rem', fontWeight: 'bold' }}>{t.calculatorBtn || "Calculator"}</span>
+                            <span style={{ fontSize: '0.75rem', opacity: 0.7 }}>{t.calcDesc || "Baseline wizard"}</span>
+                        </div>
+                    </button>
+                </div>
+            </motion.div>
+
             {/* Summary Card */}
             <motion.div
                 className="dashboard-card"

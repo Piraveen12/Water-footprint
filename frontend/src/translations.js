@@ -107,7 +107,12 @@ export const translations = {
         qDrive: "Daily driving dist. (km)?",
         next: "Next",
         back: "Back",
-        finish: "Calculate"
+        finish: "Calculate",
+        // Quick Actions
+        quickActions: "Quick Actions",
+        scanDesc: "Use camera or search",
+        calculatorBtn: "Calculator",
+        calcDesc: "Baseline wizard"
     },
     tamil: {
         appTitle: "நீர் தடம் (Water Footprint)",

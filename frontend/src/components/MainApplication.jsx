@@ -404,7 +404,13 @@ function MainApplication({ user, onLogout }) {
                             exit={{ opacity: 0, x: 20 }}
                             transition={{ duration: 0.3 }}
                         >
-                            <TrackerDashboard history={history} onStart={() => setActiveTab('scan')} onDelete={removeFromHistory} t={t} />
+                            <TrackerDashboard
+                                history={history}
+                                onStart={() => setActiveTab('scan')}
+                                onCalculate={() => setActiveTab('calculator')}
+                                onDelete={removeFromHistory}
+                                t={t}
+                            />
                         </motion.div>
                     )}
 
