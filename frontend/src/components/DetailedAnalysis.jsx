@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Leaf, Factory, BarChart2, Lightbulb, Scale, TrendingUp, ShieldCheck } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 
 const DetailedAnalysis = ({ data, t }) => {
     const [activeTab, setActiveTab] = useState('impact');
