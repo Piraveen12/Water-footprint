@@ -125,7 +125,15 @@ export const translations = {
         quickActions: "Quick Actions",
         scanDesc: "Use camera or search",
         calculatorBtn: "Calculator",
-        calcDesc: "Baseline wizard"
+        calcDesc: "Baseline wizard",
+
+        // New Analysis Features
+        downloadPDF: "Download PDF Report",
+        dayWiseImpact: "7-Day Usage Projection",
+        projectionDesc: "Cumulative water requirement if consumed daily.",
+        waysToReduce: "Ways to Reduce Consumption",
+        litersPerDay: "Liters / Day",
+        projectionTitle: "Day-wise Projection"
     },
     tamil: {
         appTitle: "நீர் தடம் (Water Footprint)",

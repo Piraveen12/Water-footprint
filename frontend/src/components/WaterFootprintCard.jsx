@@ -1,10 +1,14 @@
-import React from "react";
+import React, { useRef } from "react";
 import { motion } from "framer-motion";
-import { Droplets, Info, Globe, Sprout, Leaf, AlertCircle } from "lucide-react";
+import { Droplets, Globe, Leaf, Download, Share2, Clipboard } from "lucide-react";
 import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer, BarChart, Bar, XAxis, YAxis, CartesianGrid } from "recharts";
 import DetailedAnalysis from "./DetailedAnalysis";
+import jsPDF from "jspdf";
+import html2canvas from "html2canvas";
+import { toast } from "react-hot-toast";
 
 const WaterFootprintCard = ({ data, language, image, t }) => {
+    const cardRef = useRef(null);
     if (!data) return null;
 
     const {
@@ -38,7 +42,6 @@ const WaterFootprintCard = ({ data, language, image, t }) => {
         production_insights: getText('production_insights', default_production_insights),
     };
 
-    // Extract finalized values for use in JSX (shadowing/replacing original destructuring)
     const { item_name, category } = localizedData;
 
     // Charts Data
@@ -50,13 +53,62 @@ const WaterFootprintCard = ({ data, language, image, t }) => {
 
     const barData = regional_comparison || [];
 
+    const handleDownloadPDF = async () => {
+        if (!cardRef.current) return;
+
+        const toastId = toast.loading("Generating PDF report...");
+
+        try {
+            const element = cardRef.current;
+            const canvas = await html2canvas(element, {
+                scale: 2,
+                useCORS: true,
+                backgroundColor: "#0f172a", // Match app background
+                logging: false,
+            });
+
+            const imgData = canvas.toDataURL("image/png");
+            const pdf = new jsPDF("p", "mm", "a4");
+            const pdfWidth = pdf.internal.pageSize.getWidth();
+            const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
+
+            pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
+            pdf.save(`${item_name.replace(/\s+/g, '_')}_Water_Footprint.pdf`);
+
+            toast.success("PDF Downloaded!", { id: toastId });
+        } catch (error) {
+            console.error("PDF generation failed:", error);
+            toast.error("Failed to generate PDF", { id: toastId });
+        }
+    };
+
     return (
         <motion.div
+            ref={cardRef}
+            id="footprint-card-content"
             className="dashboard-container"
             initial={{ opacity: 0, y: 50 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
         >
+            <div className="card-actions-overlay" style={{
+                position: 'absolute',
+                top: '20px',
+                right: '25px',
+                zIndex: 10,
+                display: 'flex',
+                gap: '10px'
+            }}>
+                <button
+                    className="action-pill-btn"
+                    onClick={handleDownloadPDF}
+                    title={t?.downloadPDF || "Download PDF"}
+                >
+                    <Download size={16} />
+                    <span>{t?.downloadPDF || "PDF"}</span>
+                </button>
+            </div>
+
             {/* Section 1: Product Identification */}
             <div className="dashboard-card product-id">
                 <div className="card-header">
@@ -65,12 +117,13 @@ const WaterFootprintCard = ({ data, language, image, t }) => {
                 <div className="split-row" style={{ display: 'flex', gap: '2rem', alignItems: 'center' }}>
                     {image && (
                         <div style={{
-                            width: '100px',
-                            height: '100px',
-                            borderRadius: '12px',
+                            width: '120px',
+                            height: '120px',
+                            borderRadius: '16px',
                             overflow: 'hidden',
                             border: '2px solid rgba(255,255,255,0.1)',
-                            flexShrink: 0
+                            flexShrink: 0,
+                            boxShadow: '0 8px 16px -4px rgba(0,0,0,0.3)'
                         }}>
                             <img
                                 src={image}
@@ -82,13 +135,15 @@ const WaterFootprintCard = ({ data, language, image, t }) => {
                     <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2rem', flex: 1 }}>
                         <div className="info-block">
                             <span className="sub-label"><Leaf size={14} /> {t ? t.detectedProduct : "Detected Product"}</span>
-                            <h2>{item_name}</h2>
-                            <span className="meta">{t ? t.confidence : "Confidence"}: {confidence_score}%</span>
+                            <h2 style={{ fontSize: '2rem', margin: '0.25rem 0' }}>{item_name}</h2>
+                            <div className="confidence-tag">
+                                <span className="meta">{t ? t.confidence : "Confidence"}: {confidence_score}%</span>
+                            </div>
                         </div>
                         <div className="info-block">
                             <span className="sub-label">🏷️ {t ? t.category : "Category"}</span>
-                            <h2>{category}</h2>
-                            <span className="meta">{scientific_name}</span>
+                            <h2 style={{ fontSize: '2rem', margin: '0.25rem 0' }}>{category}</h2>
+                            <span className="meta italic">{scientific_name}</span>
                         </div>
                     </div>
                 </div>
