@@ -18,6 +18,7 @@ const WaterFootprintCard = ({ data, language, image, t }) => {
         tips: default_tips,
         recommendations: default_recommendations,
         production_insights: default_production_insights,
+        yield_optimization: default_yield_optimization,
         scientific_name, confidence_score,
         water_footprint_liters, water_footprint_unit,
         breakdown, severity,
@@ -40,6 +41,7 @@ const WaterFootprintCard = ({ data, language, image, t }) => {
         tips: getText('tips', default_tips),
         recommendations: getText('recommendations', default_recommendations),
         production_insights: getText('production_insights', default_production_insights),
+        yield_optimization: getText('yield_optimization', default_yield_optimization),
     };
 
     const { item_name, category } = localizedData;

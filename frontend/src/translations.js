@@ -129,11 +129,11 @@ export const translations = {
 
         // New Analysis Features
         downloadPDF: "Download PDF Report",
-        dayWiseImpact: "7-Day Usage Projection",
-        projectionDesc: "Cumulative water requirement if consumed daily.",
+        yieldOptimizationTitle: "Efficiency & Yield",
+        yieldOptimizationHeader: "Reducing Usage, Maintaining Yield",
         waysToReduce: "Ways to Reduce Consumption",
-        litersPerDay: "Liters / Day",
-        projectionTitle: "Day-wise Projection"
+        efficiencyTab: "Smart Efficiency",
+        bestPractices: "Best Practices for Yield"
     },
     tamil: {
         appTitle: "நீர் தடம் (Water Footprint)",

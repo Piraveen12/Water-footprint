@@ -1663,6 +1663,66 @@ button {
   color: var(--text-muted);
 }
 
+.efficiency-container {
+  padding: 1rem;
+}
+
+.efficiency-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.efficiency-header h4 {
+  font-size: 1.3rem;
+  color: white;
+}
+
+.icon-blue {
+  color: var(--primary);
+}
+
+.info-card.gold-border {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(234, 179, 8, 0.3);
+  border-left: 4px solid #eab308;
+  padding: 1.5rem;
+  border-radius: 12px;
+}
+
+.yield-text {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: var(--text-main);
+  font-style: italic;
+}
+
+.best-practices h5 {
+  font-size: 1rem;
+  color: var(--text-muted);
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.strategy-tags {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.tag {
+  background: rgba(34, 211, 238, 0.1);
+  color: var(--primary);
+  padding: 0.4rem 0.8rem;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  border: 1px solid rgba(34, 211, 238, 0.2);
+}
+
 .recommendations-container {
   padding: 0.5rem;
 }

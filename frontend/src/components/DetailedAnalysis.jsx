@@ -8,22 +8,11 @@ const DetailedAnalysis = ({ data, t }) => {
 
     const tabs = [
         { id: 'impact', label: t ? t.tabImpact : 'Environmental Impact', icon: Leaf },
-        { id: 'projection', label: t ? t.projectionTitle || 'Day-wise Projection' : 'Day-wise Projection', icon: TrendingUp },
+        { id: 'efficiency', label: t ? t.efficiencyTab || 'Smart Efficiency' : 'Smart Efficiency', icon: TrendingUp },
         { id: 'recommendations', label: t ? t.waysToReduce || 'Ways to Reduce' : 'Ways to Reduce', icon: ShieldCheck },
         { id: 'production', label: t ? t.tabProduction : 'Production Insights', icon: Factory },
         { id: 'comparison', label: t ? t.tabComparison : 'Comparisons', icon: Scale },
     ];
-
-    // Generate 7-day projection data
-    const generateProjectionData = () => {
-        const baseValue = data.water_footprint_liters || 0;
-        return Array.from({ length: 7 }, (_, i) => ({
-            day: `Day ${i + 1}`,
-            value: Math.round(baseValue * (i + 1))
-        }));
-    };
-
-    const projectionData = generateProjectionData();
 
     return (
         <div className="detailed-analysis">
@@ -56,7 +45,7 @@ const DetailedAnalysis = ({ data, t }) => {
                                 <div className="info-box">
                                     <span className="label">{t ? t.severityScore : "Severity Score"}</span>
                                     <div className="value-row">
-                                        <span className={`severity-badge ${data.severity.toLowerCase()}`}>{data.severity}</span>
+                                        <span className={`severity-badge ${data.severity?.toLowerCase()}`}>{data.severity}</span>
                                     </div>
                                 </div>
                                 <div className="info-box">
@@ -70,36 +59,23 @@ const DetailedAnalysis = ({ data, t }) => {
                             </div>
                         )}
 
-                        {activeTab === 'projection' && (
-                            <div className="projection-container">
-                                <div className="projection-header">
-                                    <h4>{t ? t.dayWiseImpact || "7-Day Usage Projection" : "7-Day Usage Projection"}</h4>
-                                    <p className="sub-text">{t ? t.projectionDesc || "Cumulative water requirement if consumed daily." : "Cumulative water requirement if consumed daily."}</p>
+                        {activeTab === 'efficiency' && (
+                            <div className="efficiency-container">
+                                <div className="efficiency-header">
+                                    <TrendingUp className="icon-blue" size={24} />
+                                    <h4>{t ? t.yieldOptimizationHeader || "Reducing Usage, Maintaining Yield" : "Reducing Usage, Maintaining Yield"}</h4>
                                 </div>
-                                <div style={{ width: '100%', height: 300, marginTop: '1.5rem' }}>
-                                    <ResponsiveContainer>
-                                        <AreaChart data={projectionData}>
-                                            <defs>
-                                                <linearGradient id="colorValue" x1="0" y1="0" x2="0" y2="1">
-                                                    <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.3} />
-                                                    <stop offset="95%" stopColor="#3b82f6" stopOpacity={0} />
-                                                </linearGradient>
-                                            </defs>
-                                            <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="rgba(255,255,255,0.05)" />
-                                            <XAxis dataKey="day" stroke="#94a3b8" fontSize={12} tickLine={false} axisLine={false} />
-                                            <YAxis stroke="#94a3b8" fontSize={12} tickLine={false} axisLine={false} tickFormatter={(val) => `${val}L`} />
-                                            <Tooltip
-                                                contentStyle={{ backgroundColor: '#1e293b', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '12px' }}
-                                                itemStyle={{ color: '#3b82f6' }}
-                                            />
-                                            <Area type="monotone" dataKey="value" stroke="#3b82f6" strokeWidth={3} fillOpacity={1} fill="url(#colorValue)" />
-                                        </AreaChart>
-                                    </ResponsiveContainer>
-                                </div>
-                                <div className="projection-footer">
-                                    <div className="projection-stat">
-                                        <span>7-Day Total:</span>
-                                        <strong style={{ color: '#3b82f6', fontSize: '1.5rem', marginLeft: '0.5rem' }}>{projectionData[6].value} Liters</strong>
+                                <div className="efficiency-content">
+                                    <div className="info-card gold-border">
+                                        <p className="yield-text">{data.yield_optimization || "Analyzing optimization patterns..."}</p>
+                                    </div>
+                                    <div className="best-practices mt-4">
+                                        <h5><ShieldCheck size={16} /> {t ? t.bestPractices : "Efficiency Strategy"}</h5>
+                                        <div className="strategy-tags">
+                                            <span className="tag">Drip Irrigation</span>
+                                            <span className="tag">Recycling</span>
+                                            <span className="tag">Process Control</span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -114,7 +90,7 @@ const DetailedAnalysis = ({ data, t }) => {
                         {activeTab === 'comparison' && (
                             <div className="comparison-list">
                                 <p>Regional usage varies significantly based on climate.</p>
-                                {data.regional_comparison.map((r, i) => (
+                                {data.regional_comparison?.map((r, i) => (
                                     <div key={i} className="comp-row">
                                         <span>{r.region}</span>
                                         <div className="bar-container">

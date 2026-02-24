@@ -88,6 +88,8 @@ def get_water_footprint_analysis(input_data, is_image=False):
     Identify the item in this input (image or text). 
     Provide a comprehensive environmental impact analysis, focusing on water usage.
     
+    CRITICAL: Include a specific section on how to reduce water usage while maintaining the SAME level of production, yield, or lifestyle quality (Yield Optimization).
+
     Return a STRICT JSON object with this exact schema:
     {
         "item_name": "string",
@@ -105,6 +107,7 @@ def get_water_footprint_analysis(input_data, is_image=False):
         },
         "carbon_footprint": "string (e.g. '0.5 kg CO2e/kg')",
         "land_use": "string (e.g. '0.2 m²/kg')",
+        "yield_optimization": "string (highly specific advice on reducing water while maintaining yield/output)",
         "regional_comparison": [
             {"region": "Global Average", "value": number},
             {"region": "Arid Regions", "value": number},
@@ -121,7 +124,8 @@ def get_water_footprint_analysis(input_data, is_image=False):
                 "description": "string",
                 "tips": ["string"],
                 "recommendations": ["string"],
-                "production_insights": "string"
+                "production_insights": "string",
+                "yield_optimization": "string"
             },
             "tamil": { 
                 "item_name": "string", 
@@ -129,7 +133,8 @@ def get_water_footprint_analysis(input_data, is_image=False):
                 "description": "string",
                 "tips": ["string"],
                 "recommendations": ["string"],
-                "production_insights": "string"
+                "production_insights": "string",
+                "yield_optimization": "string"
             },
             "telugu": { 
                 "item_name": "string", 
@@ -137,7 +142,8 @@ def get_water_footprint_analysis(input_data, is_image=False):
                 "description": "string",
                 "tips": ["string"],
                 "recommendations": ["string"],
-                "production_insights": "string"
+                "production_insights": "string",
+                "yield_optimization": "string"
             },
             "malayalam": { 
                 "item_name": "string", 
@@ -145,7 +151,8 @@ def get_water_footprint_analysis(input_data, is_image=False):
                 "description": "string",
                 "tips": ["string"],
                 "recommendations": ["string"],
-                "production_insights": "string"
+                "production_insights": "string",
+                "yield_optimization": "string"
             },
             "kannada": { 
                 "item_name": "string", 
@@ -153,7 +160,8 @@ def get_water_footprint_analysis(input_data, is_image=False):
                 "description": "string",
                 "tips": ["string"],
                 "recommendations": ["string"],
-                "production_insights": "string"
+                "production_insights": "string",
+                "yield_optimization": "string"
             }
         }
     }
