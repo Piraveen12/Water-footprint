@@ -14,61 +14,63 @@ const questions = [
         factorPerUnit: 0 // Used for division in other calculations
     },
     {
-        id: 'diet',
-        icon: <Utensils size={40} />,
-        questionKey: 'qDiet',
-        options: [
-            { key: 'dietMeat', value: 'meat', factor: 4000 },
-            { key: 'dietVeg', value: 'vegetarian', factor: 2500 },
-            { key: 'dietVegan', value: 'vegan', factor: 1500 }
-        ]
-    },
-    {
         id: 'bath',
         icon: <ShowerHead size={40} />,
         questionKey: 'qBath',
         options: [
             { key: 'bathBucket', value: 'bucket', factor: 30 },  // 1-2 buckets
-            { key: 'bathShower', value: 'shower_short', factor: 60 }, // 5 min
-            { key: 'showerLong', value: 'shower_long', factor: 120 }   // 10+ min
+            { key: 'bathShower', value: 'shower_short', factor: 80 } // Shower
+        ]
+    },
+    {
+        id: 'drinking',
+        icon: <Droplets size={40} />,
+        questionKey: 'qDrinking',
+        options: [
+            { key: 'drinkRO', value: 'ro_purifier', factor: 40 }, // RO wastage
+            { key: 'drinkBoil', value: 'boil_filter', factor: 4 }, // Basic filter/boiling
+            { key: 'drinkTap', value: 'tap_water', factor: 2 },
+            { key: 'drinkBottled', value: 'bottled', factor: 5 } // Bottled
         ]
     },
     {
         id: 'dishes',
-        icon: <Droplets size={40} />,
+        icon: <Utensils size={40} />,
         questionKey: 'qDishes',
         options: [
-            { key: 'dishHand', value: 'hand', factor: 40 }, // Running tap can be high, but bucket is low. Avg 40.
-            { key: 'dishMachine', value: 'machine', factor: 15 } // Modern efficient ones
+            { key: 'dishHandBucket', value: 'hand_bucket', factor: 20 }, // Efficient bucket washing
+            { key: 'dishHandTap', value: 'hand_tap', factor: 60 }, // Running tap
+            { key: 'dishMachine', value: 'machine', factor: 15 } // Modern dishwasher
         ]
     },
     {
-        id: 'ro',
-        icon: <Droplets size={40} />,
-        questionKey: 'qRO',
-        options: [
-            { key: 'roYes', value: 'yes', factor: 40 }, // Refund/Wastage per day for drinking/cooking
-            { key: 'roNo', value: 'no', factor: 0 }
-        ]
-    },
-    {
-        id: 'laundry',
+        id: 'laundryMethod',
         icon: <Shirt size={40} />,
-        questionKey: 'qLaundry',
-        type: 'slider',
-        min: 0,
-        max: 10,
-        factorPerUnit: 150 / 7 // Assume 150L per load, divided by 7 for daily avg
+        questionKey: 'qLaundryMethod',
+        options: [
+            { key: 'washMachine', value: 'machine', factor: 60 }, // Avg wash load
+            { key: 'washHand', value: 'hand', factor: 30 } // Hand wash
+        ]
     },
     {
-        id: 'drive',
+        id: 'cleaning',
+        icon: <Droplets size={40} />,
+        questionKey: 'qCleaning',
+        options: [
+            { key: 'cleanMop', value: 'mop', factor: 10 }, // Bucket mop
+            { key: 'cleanHose', value: 'hose', factor: 50 } // Hose pipe cleaning
+        ]
+    },
+    {
+        id: 'vehicle',
         icon: <Car size={40} />,
-        questionKey: 'qDrive',
-        type: 'slider',
-        min: 0,
-        max: 100,
-        unit: 'km',
-        factorPerUnit: 5 // Rough estimate of virtual water for fuel/wear
+        questionKey: 'qVehicle',
+        options: [
+            { key: 'vehCar', value: 'car', factor: 40 }, // High virtual/washing footprint
+            { key: 'vehBike', value: 'bike', factor: 15 },
+            { key: 'vehPublic', value: 'public', factor: 5 },
+            { key: 'vehNone', value: 'none', factor: 0 }
+        ]
     }
 ];
 
