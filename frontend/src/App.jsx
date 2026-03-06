@@ -4,6 +4,7 @@ import { GoogleOAuthProvider } from '@react-oauth/google';
 import { Toaster } from 'react-hot-toast';
 import Login from './components/Login';
 import MainApplication from './components/MainApplication';
+import CNNScanner from './components/CNNScanner';
 import './App.css';
 
 // REPLACE WITH YOUR ACTUAL GOOGLE CLIENT ID
@@ -63,6 +64,11 @@ function App() {
                   <Navigate to="/login" replace />
                 )
               }
+            />
+
+            <Route
+              path="/cnn-test"
+              element={<CNNScanner />}
             />
 
             <Route

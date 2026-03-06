@@ -6,3 +6,5 @@ pillow
 requests
 gunicorn
 pymongo
+tensorflow-cpu
+numpy

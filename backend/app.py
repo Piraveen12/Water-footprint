@@ -275,6 +275,48 @@ def footprint():
         print(f"Server Error: {e}")
         return jsonify({"error": str(e)}), 500
 
+@app.route('/api/footprint-cnn', methods=['POST'])
+def footprint_cnn():
+    """
+    Experimental endpoint using a local CNN (MobileNetV2) for quick image identification.
+    Useful for offline or low-latency identification before fetching detailed data.
+    """
+    try:
+        from cnn_model import classify_image
+        
+        if 'image' not in request.files:
+            return jsonify({"error": "No image provided"}), 400
+
+        image_file = request.files['image']
+        
+        # 1. Quick Local Identification
+        prediction = classify_image(image_file)
+        
+        if not prediction:
+            return jsonify({"error": "CNN failed to process image"}), 500
+            
+        # 2. Map the label to water footprint (Dummy or Lookup)
+        item_name = prediction['label']
+        confidence = prediction['confidence']
+        
+        # Here we could query a database or Gemini using the text label
+        # To keep it "dummy", we return the label and a placeholder footprint
+        # Or better yet, call Gemini with the label to get full environmental data
+        # since Gemini is already set up.
+        
+        # For now, let's just return the CNN result as requested
+        return jsonify({
+            "status": "success",
+            "model": "MobileNetV2",
+            "detected_item": item_name,
+            "confidence": confidence,
+            "message": f"CNN identified this as {item_name}. Use /api/footprint for full analysis."
+        })
+        
+    except Exception as e:
+        print(f"CNN Route Error: {e}")
+        return jsonify({"error": str(e)}), 500
+
 @app.route('/api/chat', methods=['POST'])
 def chat():
     data = request.get_json()
