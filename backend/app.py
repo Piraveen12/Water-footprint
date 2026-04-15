@@ -33,6 +33,55 @@ except Exception as e:
     print(f"Error connecting to MongoDB: {e}")
     history_collection = None
 
+# --- EXPERIMENTAL: CLIP & LLaMA Integration (Currently Inactive due to GPU constraints) ---
+# The following code demonstrates our initial approach using local AI models (CLIP + LLaMA) 
+# for accurate image recognition and intelligent analysis as outlined in the project presentation.
+# It is currently commented out for production deployment stability, falling back to the Gemini API.
+
+# import torch
+# from transformers import CLIPProcessor, CLIPModel
+# from transformers import AutoModelForCausalLM, AutoTokenizer
+# import PIL.Image
+
+# def get_water_footprint_with_clip_llama(image_file):
+#     """
+#     Uses CLIP to identify the item from the image, and LLaMA to generate the water footprint analysis.
+#     """
+#     try:
+#         # --- 1. Accurate Image Recognition with CLIP ---
+#         clip_model_id = "openai/clip-vit-base-patch32"
+#         processor = CLIPProcessor.from_pretrained(clip_model_id)
+#         clip_model = CLIPModel.from_pretrained(clip_model_id)
+#         
+#         image = PIL.Image.open(image_file)
+#         # Common food categories for clipping
+#         categories = ["apple", "rice", "beef", "chicken", "wheat", "coffee", "milk"]
+#         
+#         inputs = processor(text=categories, images=image, return_tensors="pt", padding=True)
+#         outputs = clip_model(**inputs)
+#         probs = outputs.logits_per_image.softmax(dim=1)
+#         detected_item = categories[probs.argmax().item()]
+#         
+#         print(f"[CLIP Model] Accurate image recognition complete. Detected: {detected_item}")
+#
+#         # --- 2. Intelligent Analysis with LLaMA ---
+#         llama_id = "meta-llama/Llama-2-7b-chat-hf"
+#         tokenizer = AutoTokenizer.from_pretrained(llama_id)
+#         llama_model = AutoModelForCausalLM.from_pretrained(llama_id, device_map="auto")
+#         
+#         prompt = f"Analyze the water footprint of {detected_item}. Provide environmental impact, water usage in L/kg, and specific tips for yield optimization."
+#         llama_inputs = tokenizer(prompt, return_tensors="pt").to("cuda")
+#         generate_ids = llama_model.generate(llama_inputs.input_ids, max_length=500)
+#         llama_response = tokenizer.batch_decode(generate_ids, skip_special_tokens=True)[0]
+#         
+#         print(f"[LLaMA Model] Intelligent analysis generated successfully.")
+#
+#         return {"detected_item": detected_item, "analysis": llama_response}
+#
+#     except Exception as e:
+#         print(f"CLIP/LLaMA Pipeline Error: {e}")
+#         return None
+
 # --- Gemini API Configuration ---
 GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
 
