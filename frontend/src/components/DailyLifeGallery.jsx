@@ -5,9 +5,7 @@ import { Droplets } from 'lucide-react';
 const DailyLifeGallery = ({ onSelect, t }) => {
     const items = [
         { name: "Coffee", icon: "☕", footprint: 132, unit: "L/cup" },
-        { name: "Jeans", icon: "👖", footprint: 7600, unit: "L/pair" },
         { name: "Rice", icon: "🍚", footprint: 2500, unit: "L/kg" },
-        { name: "T-Shirt", icon: "👕", footprint: 2500, unit: "L/unit" },
         { name: "Beef", icon: "🥩", footprint: 15415, unit: "L/kg" },
         { name: "Apple", icon: "🍎", footprint: 822, unit: "L/kg" },
         { name: "Bread", icon: "🍞", footprint: 1608, unit: "L/kg" },

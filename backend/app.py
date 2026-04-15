@@ -217,7 +217,8 @@ def add_history():
         # Add timestamp if not present
         item = data['item']
         if 'timestamp' not in item:
-            item['timestamp'] = datetime.datetime.now().isoformat()
+            ist = datetime.timezone(datetime.timedelta(hours=5, minutes=30))
+            item['timestamp'] = datetime.datetime.now(ist).isoformat()
             
         record = {
             "user_id": data['user_id'],
