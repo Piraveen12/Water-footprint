@@ -102,14 +102,12 @@ else:
         print(f"Warning: Could not list models: {e}")
 
 def generate_with_fallback(contents, is_json=True):
-    # Models to try in order of preference
     candidate_models = [
         'gemini-2.5-flash',
+        'gemini-2.0-flash',
         'gemini-1.5-flash',
-        'gemini-1.5-flash-001',
+        'gemini-1.5-flash-8b',
         'gemini-1.5-pro',
-        'gemini-1.5-pro-001',
-        'gemini-2.0-flash-exp'
     ]
 
     for model_name in candidate_models:
@@ -125,9 +123,16 @@ def generate_with_fallback(contents, is_json=True):
             print(f"Success with model: {model_name}")
             return response
         except Exception as e:
-            print(f"Failed with {model_name}: {e}")
+            error_msg = str(e).lower()
+            print(f"Failed with {model_name}: {error_msg}")
+            
+            # If the error is a rate limit or quota issue, fail fast and inform the user
+            if "429" in error_msg or "quota" in error_msg or "exhausted" in error_msg or "rate limit" in error_msg:
+                raise Exception("Gemini API rate limit exceeded. Please wait a minute and try again.")
+                
             continue
-    raise Exception("No suitable Gemini model found.")
+            
+    raise Exception("No suitable Gemini model found. Please check API key configuration or try again later.")
 
 def get_water_footprint_analysis(input_data, is_image=False):
     if not client:
